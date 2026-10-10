@@ -44,12 +44,16 @@ test.describe( 'Plugin templates', () => {
 			);
 			expect( cache.compiled ).toBeGreaterThan( 0 );
 			if ( IS_RELEASE ) {
-				// twig/{templateVersion}, plus a level for the versions of the theme if it overrides templates.
+				// twig/{templateVersion}/ with Twig's hash directories, below a further level for the
+				// versions of the theme if the theme overrides templates of the plugin.
 				const [ version, ...rest ] = cache.directories;
 				expect( version ).toMatch( /^[0-9a-f]{16}$/ );
+				expect( rest.length ).toBeGreaterThan( 0 );
 				for ( const directory of rest ) {
 					expect( directory ).toMatch(
-						new RegExp( `^${ version }/[0-9a-f]{16}(/|$)` )
+						new RegExp(
+							`^${ version }/(?:[0-9a-f]{2}|[0-9a-f]{16}(?:/[0-9a-f]{2})?)$`
+						)
 					);
 				}
 			} else {
