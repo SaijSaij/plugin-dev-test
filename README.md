@@ -26,7 +26,7 @@ git clone https://github.com/saijsaij/plugin-dev-test.git
 
 ## Release
 
-`composer release` builds `dist/plugin-dev-test-<version>.zip` with the release pipeline of the framework (see its README); the framework comes from the lock file, or from the local checkout with `-- --package-source=saij/wp-app-framework=../wp-app-framework`. A tag `v<version>` (= `Version` in `plugin-dev-test.php`) runs `.github/workflows/release.yml`: build, release test next to the release of the test theme named there (`with-theme`) with all browser tests, then the ZIP is attached to the GitHub release of the tag.
+`composer release` builds `dist/plugin-dev-test-<version>.zip` with the release pipeline of the framework (see [Release](https://saijsaij.github.io/wp-app-framework/next/build-and-release/release.html) in its documentation); the framework comes from the lock file, or from the local checkout with `-- --package-source=saij/wp-app-framework=../wp-app-framework`. A tag `v<version>` (= `Version` in `plugin-dev-test.php`) runs `.github/workflows/release.yml`: build, release test next to the release of the test theme named there (`with-theme`) with all browser tests, then the ZIP is attached to the GitHub release of the tag.
 
 ## Tests
 

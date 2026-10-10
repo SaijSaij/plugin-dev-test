@@ -1,6 +1,6 @@
 # CLAUDE.md – plugin-dev-test
 
-Test plugin of [wp-app-framework](https://github.com/saijsaij/wp-app-framework) (slug `plugin-dev-test`, main file `plugin-dev-test.php`, blocks `plugin-dev-test/…`, REST `plugin-dev-test/v1`, template prefix `plugin_dev_test_`, PHP `Saij\PluginDevTest\`). Not a product plugin: it exercises the framework in a plugin next to the test theme [theme-dev-test](https://github.com/saijsaij/theme-dev-test). Framework principles and rules: the framework's CLAUDE.md and README; this file covers the plugin.
+Test plugin of [wp-app-framework](https://github.com/saijsaij/wp-app-framework) (slug `plugin-dev-test`, main file `plugin-dev-test.php`, blocks `plugin-dev-test/…`, REST `plugin-dev-test/v1`, template prefix `plugin_dev_test_`, PHP `Saij\PluginDevTest\`). Not a product plugin: it exercises the framework in a plugin next to the test theme [theme-dev-test](https://github.com/saijsaij/theme-dev-test). Framework principles and rules: the framework's CLAUDE.md and its [documentation](https://saijsaij.github.io/wp-app-framework/); this file covers the plugin.
 
 <!-- Maintainers: keep this file under 200 lines; the README holds commands in full and the spec table. -->
 
