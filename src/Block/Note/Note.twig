@@ -1,0 +1,8 @@
+<aside {{ block_wrapper_attributes({class: 'note note--' ~ attrs.tone.value}) }}>
+    {% if attrs.title or is_editor() %}
+        <p class="note__title"{{ field('title') }}>{{ attrs.title }}</p>
+    {% endif %}
+    {% if attrs.text or is_editor() %}
+        <div class="note__text"{{ field('text') }}>{{ attrs.text|raw }}</div>
+    {% endif %}
+</aside>

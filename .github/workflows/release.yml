@@ -1,0 +1,18 @@
+# Release for a tag v<version> (= Version in plugin-dev-test.php): builds the ZIP,
+# tests it in a plain WordPress next to a release of the test theme and attaches
+# it to the GitHub release of the tag.
+# The test plugin follows the framework's main branch; plugins pin a framework tag.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    uses: SaijSaij/wp-app-framework/.github/workflows/consumer-release.yml@main
+    with:
+      with-theme: SaijSaij/theme-dev-test@v0.2.0
