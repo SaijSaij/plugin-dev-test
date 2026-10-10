@@ -68,10 +68,11 @@ test.describe( 'Theme and plugin', () => {
 				window.wpAppFramework[ 'plugin-dev-test' ].config.blocks
 			),
 		} ) );
-		expect( instances ).toEqual( {
-			slugs: [ 'plugin-dev-test', 'theme-dev-test' ],
-			pluginBlocks: [ 'plugin-dev-test/note' ],
-		} );
+		// An active child theme with blocks of its own (theme-dev-test-child) adds a third instance.
+		expect( instances.slugs ).toEqual(
+			expect.arrayContaining( [ 'plugin-dev-test', 'theme-dev-test' ] )
+		);
+		expect( instances.pluginBlocks ).toEqual( [ 'plugin-dev-test/note' ] );
 		await expect(
 			page.locator( '#plugin-dev-test-wp-app-framework-js' )
 		).toHaveCount( 1 );

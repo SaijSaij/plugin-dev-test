@@ -34,7 +34,8 @@ function trackRenderRequests( page, route = RENDER_ROUTE ) {
 }
 
 /**
- * Fails unless the test theme is the active theme: the tests of the interplay use its blocks.
+ * Fails unless the test theme is the active theme or the parent of the active child theme
+ * (https://github.com/saijsaij/theme-dev-test-child): the tests of the interplay use its blocks.
  *
  * @param {Object} requestUtils
  */
@@ -43,7 +44,7 @@ async function requireTestTheme( requestUtils ) {
 		path: '/wp/v2/themes',
 		params: { status: 'active' },
 	} );
-	const active = themes.map( ( theme ) => theme.stylesheet );
+	const active = themes.map( ( theme ) => theme.template );
 	if ( ! active.includes( TEST_THEME ) ) {
 		throw new Error(
 			`These tests need the active theme ${ TEST_THEME }, found ${ active.join( ', ' ) }.`

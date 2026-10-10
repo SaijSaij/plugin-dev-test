@@ -46,7 +46,7 @@ Manifest OK (plugin plugin-dev-test): 13 service candidates, 9 services, 1 hooks
 Public: 1 APIs, 3 template functions and filters.
 ```
 
-The browser tests need the test theme as active theme (`requireTestTheme()` fails otherwise). Against the release ZIPs:
+The browser tests need the test theme as active theme or as parent of the active child theme [theme-dev-test-child](https://github.com/saijsaij/theme-dev-test-child) (`requireTestTheme()` fails otherwise). Against the release ZIPs:
 
 ```sh
 scripts/release-test --theme ../theme-dev-test/dist/theme-dev-test-<version>.zip --plugin ../plugin-dev-test/dist/plugin-dev-test-0.1.0.zip
