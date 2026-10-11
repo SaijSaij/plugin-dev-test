@@ -42,7 +42,7 @@ docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 18 service candidates, 13 services, 1 hooks, 8 routes, 13 template functions, 1 template filters, 2 blocks. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 18 service candidates, 13 services, 1 hooks, 8 routes, 32 template functions, 1 template filters, 2 blocks. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
 ```
 
