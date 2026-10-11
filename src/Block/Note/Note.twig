@@ -1,4 +1,4 @@
-<aside {{ block_wrapper_attributes({class: 'note note--' ~ attrs.tone.value}) }}>
+<aside {{ block_wrapper_attributes({class: 'note pdt:p-4 pdt:border-s-4 pdt:border-solid note--' ~ attrs.tone.value}) }}>
     {% if attrs.title or is_editor() %}
         <p class="note__title"{{ field('title') }}>{{ attrs.title }}</p>
     {% endif %}

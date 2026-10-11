@@ -1,0 +1,9 @@
+/*
+ * Stylesheet of the plugin, compiled with Tailwind CSS by the framework's webpack helper
+ * (build/styles.css). Class names are global: the prefix keeps them apart from the theme's.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(pdt);
+@import "tailwindcss/utilities.css" layer(utilities) source(none) prefix(pdt);
+
+@source "./**/*.twig";

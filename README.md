@@ -42,7 +42,7 @@ docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 13 service candidates, 9 services, 1 hooks, 5 routes, 8 template functions, 1 template filters, 1 blocks. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 15 service candidates, 10 services, 1 hooks, 5 routes, 8 template functions, 1 template filters, 2 blocks. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
 ```
 
@@ -63,12 +63,14 @@ The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
 | `coexistence.spec.js` | Two framework instances: separate runtimes, JS globals and render routes in one editor, blocks of theme and plugin in one post, hooks of both | `src/Block/Note/`, `src/Hook/` |
 | `excerpt.spec.js` | Excerpt fields of theme and plugin blocks in document order | `src/Block/Note/` |
 | `twig.spec.js` | Own templates despite theme templates with the same path, `@plugin`, cache directory per slug (and per release) | `src/Twig/` |
+| `styles.spec.js` | Stylesheet built with Tailwind and the prefix `pdt` (only prefixed utilities and variables), loaded on the front end and in the editor canvas, not in the editor's main document | `src/styles.css`, `src/Block/Note/` |
+| `parity.spec.js` | The same sizes, spacing and type of every element of a block in the editor canvas as on the front end (`measureBlocks()` in `helpers.js`); the space between blocks belongs to the theme | `src/Block/Teaser/` |
 | `mode.spec.js` | Development and release mode, prefixed classes, init action `wp_app_framework/init/plugin-dev-test`, URL from `plugin_dir_url()` | `src/Mode/` |
 
 ## Structure
 
 - `plugin-dev-test.php` loads the autoloader (`vendor-prefixed/` in release builds, `vendor/` in source checkouts) and boots the framework with `Plugin::boot(__FILE__)`.
 - `src/` contains the plugin's PHP classes (PSR-4 `Saij\PluginDevTest\`) with their Twig templates and editor scripts.
-- `build/` (not versioned) is the output of the script build.
+- `build/` (not versioned) is the output of the script and stylesheet build (`src/styles.css`, Tailwind with the prefix `pdt`, because class names are global).
 
 Caches: `wp-content/cache/plugin-dev-test/manifest/` (development), `wp-content/cache/plugin-dev-test/twig/<template version>/[<theme versions>/]` (release).

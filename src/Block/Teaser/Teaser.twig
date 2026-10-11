@@ -1,0 +1,12 @@
+{# Only prefixed utilities (pdt:), on Tailwind's own scale: the plugin knows no theme tokens. #}
+<div {{ block_wrapper_attributes({class: 'teaser pdt:flex pdt:flex-col pdt:gap-3 pdt:max-w-xl pdt:p-6 pdt:border pdt:border-solid pdt:rounded-md'}) }}>
+    {% if attrs.title or is_editor() %}
+        <h3 class="teaser__title pdt:m-0 pdt:text-xl pdt:leading-tight pdt:font-semibold"{{ field('title') }}>{{ attrs.title|raw }}</h3>
+    {% endif %}
+    {% if attrs.text or is_editor() %}
+        <p class="teaser__text pdt:m-0 pdt:text-sm pdt:leading-normal"{{ field('text') }}>{{ attrs.text|raw }}</p>
+    {% endif %}
+    {% if attrs.linkLabel or is_editor() %}
+        <a class="teaser__link pdt:self-start pdt:px-3 pdt:py-1 pdt:border pdt:border-solid pdt:rounded-sm" href="{{ attrs.linkUrl }}"{{ field('linkLabel') }}>{{ attrs.linkLabel }}</a>
+    {% endif %}
+</div>

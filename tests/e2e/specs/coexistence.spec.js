@@ -72,7 +72,10 @@ test.describe( 'Theme and plugin', () => {
 		expect( instances.slugs ).toEqual(
 			expect.arrayContaining( [ 'plugin-dev-test', 'theme-dev-test' ] )
 		);
-		expect( instances.pluginBlocks ).toEqual( [ 'plugin-dev-test/note' ] );
+		expect( instances.pluginBlocks.sort() ).toEqual( [
+			'plugin-dev-test/note',
+			'plugin-dev-test/teaser',
+		] );
 		await expect(
 			page.locator( '#plugin-dev-test-wp-app-framework-js' )
 		).toHaveCount( 1 );
