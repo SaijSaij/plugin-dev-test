@@ -7,3 +7,10 @@
 @import "tailwindcss/utilities.css" layer(utilities) source(none) prefix(pdt);
 
 @source "./**/*.twig";
+
+/* Classes of the block support (src/Support/), built at run time: plain CSS with the plugin's prefix. */
+@layer components {
+	.pdt-surface-tinted {
+		background-color: #fff4d6;
+	}
+}

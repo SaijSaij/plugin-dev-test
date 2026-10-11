@@ -42,7 +42,7 @@ docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 15 service candidates, 10 services, 1 hooks, 5 routes, 8 template functions, 1 template filters, 2 blocks. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 16 service candidates, 11 services, 1 hooks, 5 routes, 8 template functions, 1 template filters, 2 blocks. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
 ```
 
@@ -64,6 +64,7 @@ The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
 | `excerpt.spec.js` | Excerpt fields of theme and plugin blocks in document order | `src/Block/Note/` |
 | `twig.spec.js` | Own templates despite theme templates with the same path, `@plugin`, cache directory per slug (and per release) | `src/Twig/` |
 | `styles.spec.js` | Stylesheet built with Tailwind and the prefix `pdt` (only prefixed utilities and variables), loaded on the front end and in the editor canvas, not in the editor's main document | `src/styles.css`, `src/Block/Note/` |
+| `supports.spec.js` | Block support of the plugin with the same attribute name as the theme's (`surface`): only on the plugin's block, prefixed class names, control in the Styles tab, stored attribute | `src/Support/`, `src/Block/Note/`, `src/styles.css` |
 | `parity.spec.js` | The same sizes, spacing and type of every element of a block in the editor canvas as on the front end (`measureBlocks()` in `helpers.js`); the space between blocks belongs to the theme | `src/Block/Teaser/` |
 | `mode.spec.js` | Development and release mode, prefixed classes, init action `wp_app_framework/init/plugin-dev-test`, URL from `plugin_dir_url()` | `src/Mode/` |
 

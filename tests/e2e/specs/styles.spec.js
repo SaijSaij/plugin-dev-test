@@ -37,6 +37,8 @@ test.describe( 'Plugin stylesheet', () => {
 			( match ) => match[ 1 ]
 		);
 		expect( classes.sort() ).toEqual( [
+			// Plain CSS for the block support (src/Support/), prefixed by hand.
+			'pdt-surface-tinted',
 			'pdt\\:border',
 			'pdt\\:border-s-4',
 			'pdt\\:border-solid',
