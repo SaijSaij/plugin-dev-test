@@ -73,6 +73,7 @@ test.describe( 'Theme and plugin', () => {
 			expect.arrayContaining( [ 'plugin-dev-test', 'theme-dev-test' ] )
 		);
 		expect( instances.pluginBlocks.sort() ).toEqual( [
+			'plugin-dev-test/counter',
 			'plugin-dev-test/note',
 			'plugin-dev-test/teaser',
 		] );
