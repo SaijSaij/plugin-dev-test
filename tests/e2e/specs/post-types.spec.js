@@ -1,7 +1,7 @@
 /**
  * Post types and meta of the plugin: its own post type at the limit of 20
  * characters, its own meta on posts of WordPress, independent of the meta of
- * the theme.
+ * the theme, and queries by its meta (src/Post/PostController.php).
  */
 const { test, expect } = require( '../fixtures' );
 
@@ -71,5 +71,56 @@ test.describe( 'Post types and meta of the plugin', () => {
 		expect(
 			keys.filter( ( key ) => key.startsWith( 'plugin_dev_test_' ) )
 		).toEqual( [ 'plugin_dev_test_stars' ] );
+	} );
+
+	test( 'queries notes and posts by its own meta fields', async ( {
+		requestUtils,
+	} ) => {
+		const ids = {};
+		for ( const [ name, priority ] of [
+			[ 'low', 1 ],
+			[ 'high', 3 ],
+			[ 'middle', 2 ],
+			// Without stored priority: the default 1.
+			[ 'none', null ],
+		] ) {
+			const note = await requestUtils.rest( {
+				method: 'POST',
+				path: '/wp/v2/plugin_dev_test_note',
+				data: {
+					title: `E2E ${ name }`,
+					status: 'publish',
+					meta:
+						priority === null
+							? {}
+							: { plugin_dev_test_priority: priority },
+				},
+			} );
+			ids[ name ] = trackPost( note.id, 'plugin_dev_test_note' );
+		}
+		for ( const [ name, stars ] of [
+			[ 'four', 4 ],
+			[ 'two', 2 ],
+		] ) {
+			const post = await requestUtils.rest( {
+				method: 'POST',
+				path: '/wp/v2/posts',
+				data: {
+					title: `E2E ${ name }`,
+					status: 'publish',
+					meta: { plugin_dev_test_stars: stars },
+				},
+			} );
+			ids[ name ] = trackPost( post.id, 'posts' );
+		}
+
+		const result = await restResponse( requestUtils, {
+			path: '/plugin-dev-test/v1/posts/query',
+			params: { ids: Object.values( ids ).join( ',' ) },
+		} );
+		expect( result.body ).toEqual( {
+			notes: [ ids.high, ids.middle ],
+			rated: [ ids.four ],
+		} );
 	} );
 } );
