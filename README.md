@@ -42,7 +42,7 @@ docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 21 service candidates, 14 services, 1 hooks, 8 routes, 32 template functions, 1 template filters, 3 blocks. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 24 service candidates, 16 services, 1 hooks, 10 routes, 33 template functions, 1 template filters, 3 blocks. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
 ```
 
@@ -66,6 +66,7 @@ The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
 | `styles.spec.js` | Stylesheet built with Tailwind and the prefix `pdt` (only prefixed utilities and variables), loaded on the front end and in the editor canvas, not in the editor's main document | `src/styles.css`, `src/Block/Note/` |
 | `supports.spec.js` | Block support of the plugin with the same attribute name as the theme's (`surface`): only on the plugin's block, prefixed class names, control in the Styles tab, stored attribute | `src/Support/`, `src/Block/Note/`, `src/styles.css` |
 | `parity.spec.js` | The same sizes, spacing and type of every element of a block in the editor canvas as on the front end (`measureBlocks()` in `helpers.js`); the space between blocks belongs to the theme | `src/Block/Teaser/` |
+| `post-types.spec.js` | The plugin's post type `plugin_dev_test_note` (exactly 20 characters) and its meta read through its own classes; its own meta key on posts next to those of the theme | `src/Post/` |
 | `settings.spec.js` | Settings group of the plugin with the same name as the theme's (`general`): own option `plugin_dev_test_general`, own page under Settings (one group, no tabs), template global with the plugin's groups only, options of the theme unchanged | `src/Setting/` |
 | `view.spec.js` | View script of the plugin's block: loaded with the plugin's view runtime, marker with the plugin's slug, mounted next to the theme's view scripts (if the active test theme has them), preview in the editor | `src/Block/Counter/` |
 | `mode.spec.js` | Development and release mode, prefixed classes, init action `wp_app_framework/init/plugin-dev-test`, URL from `plugin_dir_url()` | `src/Mode/` |

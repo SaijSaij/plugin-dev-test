@@ -124,8 +124,20 @@ async function createDraft( requestUtils, content ) {
  */
 async function createPost( requestUtils, post ) {
 	const created = await requestUtils.createPost( post );
-	createdPosts.push( created.id );
+	createdPosts.push( [ 'posts', created.id ] );
 	return created.id;
+}
+
+/**
+ * Registers a post created through REST for cleanUp().
+ *
+ * @param {number} id       Post ID.
+ * @param {string} restBase REST base of its post type.
+ * @return {number} The ID.
+ */
+function trackPost( id, restBase ) {
+	createdPosts.push( [ restBase, id ] );
+	return id;
 }
 
 /**
@@ -208,9 +220,10 @@ async function storedContent( requestUtils, id ) {
  */
 async function cleanUp( requestUtils ) {
 	while ( createdPosts.length > 0 ) {
+		const [ restBase, id ] = createdPosts.pop();
 		await requestUtils.rest( {
 			method: 'DELETE',
-			path: `/wp/v2/posts/${ createdPosts.pop() }`,
+			path: `/wp/v2/${ restBase }/${ id }`,
 			params: { force: true },
 		} );
 	}
@@ -311,6 +324,7 @@ async function measureBlocks( blocks ) {
 }
 
 module.exports = {
+	trackPost,
 	block,
 	blockCount,
 	cleanUp,
