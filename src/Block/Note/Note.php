@@ -14,7 +14,7 @@ use Saij\WpAppFramework\Twig\TemplateRenderer;
  * Block of the plugin, used next to the blocks of the test theme; uses the
  * plugin's block support Surface.
  */
-#[Block('plugin-dev-test/note', title: 'Note', category: BlockCategory::Text, icon: 'sticky', description: 'A note from the test plugin.')]
+#[Block('note', title: 'Note', category: BlockCategory::Text, icon: 'sticky', description: 'A note from the test plugin.')]
 #[UseSupport(Surface::class)]
 final readonly class Note
 {

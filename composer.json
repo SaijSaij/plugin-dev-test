@@ -28,6 +28,9 @@
         "release": "wp-app-framework release"
     },
     "extra": {
+        "wp-app-framework": {
+            "namespace": "plugin-dev-test"
+        },
         "strauss": {
             "target_directory": "vendor-prefixed",
             "namespace_prefix": "Saij\\PluginDevTest\\Vendor\\",

@@ -17,7 +17,7 @@ use WP_REST_Request;
  * Shows the injected settings group and the template global of the plugin's
  * instance, and reads and writes the raw option (to restore it after a test).
  */
-#[RestController(Api::NAMESPACE, base: '/settings')]
+#[RestController(Api::VERSION, base: '/settings')]
 final readonly class SettingsController
 {
     private const string OPTION = 'plugin_dev_test_general';

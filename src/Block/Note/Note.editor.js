@@ -4,7 +4,7 @@
 import { registerPanel } from '@saij/wp-app-framework';
 import { PanelBody } from '@wordpress/components';
 
-registerPanel( 'plugin-dev-test/note', ( { attributes } ) => (
+registerPanel( 'note', ( { attributes } ) => (
 	<PanelBody title="Note summary" initialOpen={ false }>
 		<p className="plugin-dev-test-note-summary">{ `Tone: ${ attributes.tone }` }</p>
 	</PanelBody>

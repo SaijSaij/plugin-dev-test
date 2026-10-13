@@ -89,9 +89,14 @@ test.describe( 'Settings', () => {
 			await restResponse( requestUtils, { path: '/wp/v2/settings' } )
 		).body;
 		expect( after[ OPTION ].greeting ).toBe( 'Changed greeting' );
-		// Options of other instances (the test theme's, if active) are unchanged.
+		// Options of other instances (the test theme's, if active) are unchanged. Theme releases before
+		// framework 0.9 name them after the slug (theme_dev_test_), later ones after the namespace (dev_test_).
 		for ( const [ name, value ] of Object.entries( before ) ) {
-			if ( name !== OPTION && name.startsWith( 'theme_dev_test_' ) ) {
+			if (
+				name !== OPTION &&
+				( name.startsWith( 'dev_test_' ) ||
+					name.startsWith( 'theme_dev_test_' ) )
+			) {
 				expect( after[ name ] ).toEqual( value );
 			}
 		}

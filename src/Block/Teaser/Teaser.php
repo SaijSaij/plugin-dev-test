@@ -12,7 +12,7 @@ use Saij\WpAppFramework\Twig\TemplateRenderer;
  * Styled with the prefixed utilities of the plugin's stylesheet; must look the
  * same in the editor canvas and on the front end (parity.spec.js).
  */
-#[Block('plugin-dev-test/teaser', title: 'Teaser', category: BlockCategory::Design, icon: 'id-alt', description: 'Teaser with title, text and link.')]
+#[Block('teaser', title: 'Teaser', category: BlockCategory::Design, icon: 'id-alt', description: 'Teaser with title, text and link.')]
 final readonly class Teaser
 {
     public function __construct(private TemplateRenderer $renderer) {}

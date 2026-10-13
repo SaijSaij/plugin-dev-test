@@ -13,7 +13,7 @@ use Saij\WpAppFramework\Twig\TemplateRenderer;
  * Counter.view.js, mounted by the plugin's own view runtime next to the
  * theme's (view.spec.js).
  */
-#[Block('plugin-dev-test/counter', title: 'Counter', category: BlockCategory::Widgets, icon: 'plus', description: 'A button that counts its clicks.')]
+#[Block('counter', title: 'Counter', category: BlockCategory::Widgets, icon: 'plus', description: 'A button that counts its clicks.')]
 final readonly class Counter
 {
     public function __construct(private TemplateRenderer $renderer) {}
