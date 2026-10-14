@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# WP-CLI tests of the plugin: runs its command of src/Cli/ next to the commands of
+# the test theme (two framework instances with separate namespaces) and checks
+# their output and exit codes. Needs theme-dev-test with its WP-CLI commands as
+# active theme or as parent of the active child theme. Run it from the wp-dev-env
+# directory with the Compose service of the site:
+#
+#   ../plugin-dev-test/tests/cli/run wordpress           # development mode (checkouts)
+#   ../plugin-dev-test/tests/cli/run wordpress-release   # release ZIPs of scripts/release-test
+set -euo pipefail
+
+if [[ $# -ne 1 || ( "$1" != wordpress && "$1" != wordpress-release ) ]]; then
+    echo "usage: $0 wordpress|wordpress-release (run from the wp-dev-env directory)" >&2
+    exit 2
+fi
+service="$1"
+if [[ ! -f compose.yaml ]]; then
+    echo "ERROR: run $0 from the wp-dev-env directory (no compose.yaml in $(pwd))." >&2
+    exit 2
+fi
+
+stderr_file="$(mktemp)"
+trap 'rm -f "${stderr_file}"' EXIT
+failures=0
+stdout=''
+stderr=''
+status=0
+
+# Runs wp in the service as the web server user; sets stdout, stderr and status.
+wp_cli() {
+    set +e
+    stdout="$(docker compose exec -T -u www-data -e PAGER=cat "${service}" wp "$@" 2>"${stderr_file}")"
+    status=$?
+    set -e
+    stderr="$(cat "${stderr_file}")"
+}
+
+fail() {
+    echo "FAIL: $1" >&2
+    echo "  exit code: ${status}" >&2
+    echo "  stdout: ${stdout}" >&2
+    echo "  stderr: ${stderr}" >&2
+    failures=$((failures + 1))
+}
+
+# expect_stdout <test> <exit code> <exact stdout>
+expect_stdout() {
+    if [[ "${status}" -ne "$2" || "${stdout}" != "$3" ]]; then
+        fail "$1 (expected exit code $2 and stdout: $3)"
+    else
+        echo "ok: $1"
+    fi
+}
+
+# expect_output <test> <exit code> <text in stdout or stderr>...
+expect_output() {
+    local name="$1" code="$2" text
+    shift 2
+    if [[ "${status}" -ne "${code}" ]]; then
+        fail "${name} (expected exit code ${code})"
+        return
+    fi
+    for text in "$@"; do
+        if [[ "${stdout}${stderr}" != *"${text}"* ]]; then
+            fail "${name} (expected output: ${text})"
+            return
+        fi
+    done
+    echo "ok: ${name}"
+}
+
+wp_cli plugin-dev-test check ping
+expect_stdout 'command of the plugin' 0 'pong from plugin-dev-test'
+
+wp_cli plugin-dev-test check ping again
+expect_stdout 'optional argument of the plugin command' 0 'pong from plugin-dev-test again'
+
+wp_cli help plugin-dev-test
+expect_output 'namespace of the plugin' 0 'Commands of the plugin plugin-dev-test.' 'check'
+
+wp_cli plugin-dev-test check values hello --mode=full
+expect_output 'commands of the theme are not in the namespace of the plugin' 1 "'values' is not a registered subcommand of 'plugin-dev-test check'"
+
+wp_cli dev-test check values hello --mode=full
+expect_stdout 'command of the theme next to the plugin' 0 '{"text":["hello","string"],"count":[1,"int"],"ratio":[null,"null"],"mode":["full","CheckMode::Full"],"upper":[false,"bool"]}'
+
+if [[ "${failures}" -ne 0 ]]; then
+    echo "${failures} WP-CLI test(s) failed against ${service}." >&2
+    exit 1
+fi
+echo "All WP-CLI tests passed against ${service}."
