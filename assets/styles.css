@@ -6,7 +6,7 @@
 @import "tailwindcss/theme.css" layer(theme) prefix(pdt);
 @import "tailwindcss/utilities.css" layer(utilities) source(none) prefix(pdt);
 
-@source "./**/*.twig";
+@source "../src/**/*.twig";
 
 /* Classes of the block support (src/Support/), built at run time: plain CSS with the plugin's prefix. */
 @layer components {

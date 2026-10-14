@@ -1,5 +1,5 @@
 /**
- * The plugin's stylesheet src/styles.css, compiled with Tailwind with the prefix
+ * The plugin's stylesheet assets/styles.css, compiled with Tailwind with the prefix
  * `pdt`, loaded on the front end and in the editor canvas next to the theme's.
  */
 const { test, expect } = require( '../fixtures' );
