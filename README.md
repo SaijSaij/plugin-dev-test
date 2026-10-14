@@ -42,8 +42,9 @@ docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 29 service candidates, 20 services, 1 hooks, 14 routes, 34 template functions, 1 template filters, 3 blocks, 1 CLI commands, 0 cron events, 0 cron tasks, 1 tables, 3 lifecycle methods. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 35 service candidates, 23 services, 2 hooks, 15 routes, 37 template functions, 1 template filters, 3 blocks, 1 CLI commands, 0 cron events, 0 cron tasks, 1 tables, 3 lifecycle methods. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
+Assets: 2 static files, 0 image variants.
 ```
 
 The browser tests need the test theme as active theme or as parent of the active child theme [theme-dev-test-child](https://github.com/saijsaij/theme-dev-test-child) (`requireTestTheme()` fails otherwise). Against the release ZIPs:
@@ -73,8 +74,10 @@ Lifecycle tests (`tests/lifecycle/run`, Bash) deactivate, activate and uninstall
 
 | Spec | Covers | Code under test |
 |---|---|---|
+| `assets.spec.js` | Static assets of the plugin through the injected `Assets` service: URLs below the plugin, the override of an asset by the test theme (`overrides/plugin-dev-test/assets/`), `@plugin/…` without override, an inline SVG | `assets/images/`, `src/Asset/` |
 | `block.spec.js` | Block of the plugin: inline editing, re-render through the plugin's render route, `registerPanel` of the plugin's instance, stored content, front end | `src/Block/Note/` |
 | `coexistence.spec.js` | Two framework instances: separate runtimes, JS globals and render routes in one editor, blocks of theme and plugin in one post, hooks of both | `src/Block/Note/`, `src/Hook/` |
+| `document-views.spec.js` | Document view of the plugin next to the test theme's: view data with the same key and a shared module with the same name (`#shared/order`) stay separate per instance | `assets/document.view.js`, `assets/shared/`, `src/Script/` |
 | `excerpt.spec.js` | Excerpt fields of theme and plugin blocks in document order | `src/Block/Note/` |
 | `twig.spec.js` | Own templates despite theme templates with the same path, `@plugin`, cache directory per slug (and per release) | `src/Twig/` |
 | `styles.spec.js` | Stylesheet built with Tailwind and the prefix `pdt` (only prefixed utilities and variables), loaded on the front end and in the editor canvas, not in the editor's main document | `assets/styles.css`, `src/Block/Note/` |
