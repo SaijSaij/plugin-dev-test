@@ -4,19 +4,22 @@
 # their output and exit codes. The command of the theme is checked only if the
 # active theme offers it (theme-dev-test with its WP-CLI commands, as active theme
 # or as parent of the active child theme); otherwise the check is skipped. Run it
-# from the wp-dev-env directory with the Compose service of the site:
+# against an instance of wp-test-env (https://github.com/saijsaij/wp-test-env,
+# checked out next to this repository) in development mode (checkouts) or release
+# mode (release ZIPs):
 #
-#   ../plugin-dev-test/tests/cli/run wordpress           # development mode (checkouts)
-#   ../plugin-dev-test/tests/cli/run wordpress-release   # release ZIPs of scripts/release-test
+#   plugin-dev-test/tests/cli/run <instance>
 set -euo pipefail
 
-if [[ $# -ne 1 || ( "$1" != wordpress && "$1" != wordpress-release ) ]]; then
-    echo "usage: $0 wordpress|wordpress-release (run from the wp-dev-env directory)" >&2
+if [[ $# -ne 1 ]]; then
+    echo "usage: $0 <instance of wp-test-env>" >&2
     exit 2
 fi
-service="$1"
-if [[ ! -f compose.yaml ]]; then
-    echo "ERROR: run $0 from the wp-dev-env directory (no compose.yaml in $(pwd))." >&2
+instance="$1"
+# wp-test-env is checked out next to this repository.
+test_env="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/wp-test-env"
+if [[ ! -x "${test_env}/bin/wp" ]]; then
+    echo "ERROR: ${test_env}/bin/wp not found; check out wp-test-env (https://github.com/saijsaij/wp-test-env) next to this repository." >&2
     exit 2
 fi
 
@@ -27,10 +30,10 @@ stdout=''
 stderr=''
 status=0
 
-# Runs wp in the service as the web server user; sets stdout, stderr and status.
+# Runs wp in the instance as the web server user; sets stdout, stderr and status.
 wp_cli() {
     set +e
-    stdout="$(docker compose exec -T -u www-data -e PAGER=cat "${service}" wp "$@" 2>"${stderr_file}")"
+    stdout="$("${test_env}/bin/wp" "${instance}" "$@" 2>"${stderr_file}")"
     status=$?
     set -e
     stderr="$(cat "${stderr_file}")"
@@ -94,7 +97,7 @@ else
 fi
 
 if [[ "${failures}" -ne 0 ]]; then
-    echo "${failures} WP-CLI test(s) failed against ${service}." >&2
+    echo "${failures} WP-CLI test(s) failed against ${instance}." >&2
     exit 1
 fi
-echo "All WP-CLI tests passed against ${service}."
+echo "All WP-CLI tests passed against ${instance}."

@@ -1,0 +1,31 @@
+# Test pools of the plugin in development mode, for bin/run of wp-test-env
+# (https://github.com/saijsaij/wp-test-env), e.g. from its directory:
+#
+#   bin/run ../plugin-dev-test/tests/dev.pools
+#
+# Every instance runs the checkouts with the framework checkout linked into vendor/;
+# the plugin's tests need the test theme theme-dev-test.
+prepare theme-dev-test plugin-dev-test
+link saij/wp-app-framework=wp-app-framework
+link saij/plugin-dev-test=plugin-dev-test
+link saij/theme-dev-test=theme-dev-test
+
+pool pdt
+instances 2
+themes theme-dev-test
+plugins plugin-dev-test
+activate theme-dev-test
+e2e plugin-dev-test
+
+pool pdt-cli
+themes theme-dev-test
+plugins plugin-dev-test
+activate theme-dev-test
+run plugin-dev-test/tests/cli/run {instance}
+
+# Deactivates, activates and uninstalls the plugin.
+pool pdt-lifecycle
+themes theme-dev-test
+plugins plugin-dev-test
+activate theme-dev-test
+run plugin-dev-test/tests/lifecycle/run {instance}

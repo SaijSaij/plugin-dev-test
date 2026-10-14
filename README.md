@@ -16,7 +16,7 @@ The test theme uses all three; its `plugin.spec.js` checks them.
 
 ## Development
 
-The framework is required from its GitHub repository as `dev-main`, like in the test theme. Clone the repositories side by side and use [wp-dev-env](https://github.com/saijsaij/wp-dev-env) with `WP_THEMES=theme-dev-test`, `WP_ACTIVE_THEME=theme-dev-test`, `WP_PLUGINS=plugin-dev-test` and `WP_PACKAGE_LINKS=saij/wp-app-framework=wp-app-framework`; its setup runs `composer install`, `npm ci` and `npm run build` for theme and plugin and activates the plugin.
+The framework is required from its GitHub repository as `dev-main`, like in the test theme. Clone the repositories side by side and develop with [wp-dev-env](https://github.com/saijsaij/wp-dev-env) with `WP_THEMES=theme-dev-test`, `WP_ACTIVE_THEME=theme-dev-test`, `WP_PLUGINS=plugin-dev-test` and `WP_PACKAGE_LINKS=saij/wp-app-framework=wp-app-framework`; its setup runs `composer install`, `npm ci` and `npm run build` for theme and plugin and activates the plugin.
 
 ```sh
 git clone https://github.com/saijsaij/wp-app-framework.git
@@ -30,13 +30,12 @@ git clone https://github.com/saijsaij/plugin-dev-test.git
 
 ## Tests
 
-All checks run in wp-dev-env and must pass without errors or warnings.
+All checks run with [wp-test-env](https://github.com/saijsaij/wp-test-env), checked out next to this repository, and must pass without errors or warnings. From this directory:
 
 ```sh
-docker compose run --rm tools composer --working-dir=/workspace/plugin-dev-test build-manifest
-docker compose run --rm tools composer --working-dir=/workspace/plugin-dev-test lint   # fix: composer fix
-docker compose run --rm tools npm --prefix /workspace/plugin-dev-test run lint          # fix: npm run format
-docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
+../wp-test-env/bin/tools -w plugin-dev-test composer build-manifest
+../wp-test-env/bin/tools -w plugin-dev-test composer lint   # fix: composer fix
+../wp-test-env/bin/tools -w plugin-dev-test npm run lint    # fix: npm run format
 ```
 
 `build-manifest` must report
@@ -47,29 +46,33 @@ Public: 1 APIs, 3 template functions and filters.
 Assets: 2 static files, 0 image variants.
 ```
 
-The browser tests need the test theme as active theme or as parent of the active child theme [theme-dev-test-child](https://github.com/saijsaij/theme-dev-test-child) (`requireTestTheme()` fails otherwise). Against the release ZIPs:
+Browser tests (Playwright, `tests/e2e/`), WP-CLI tests (`tests/cli/run`) and lifecycle tests (`tests/lifecycle/run`) run in fresh WordPress instances of wp-test-env, described in `tests/dev.pools` (the checkouts of plugin and test theme) and `tests/release.pools` (the plugin's release ZIP, built first with the framework checkout, next to the newest ZIP in `theme-dev-test/dist/`). From the wp-test-env directory:
 
 ```sh
-scripts/release-test --theme ../theme-dev-test/dist/theme-dev-test-<version>.zip --plugin ../plugin-dev-test/dist/plugin-dev-test-0.1.0.zip
-set -a; . ./.env; set +a
-docker compose run --rm --no-deps -e WP_BASE_URL="$WP_RELEASE_URL" -e E2E_BROWSER_HOST_RULES="MAP $WP_RELEASE_HOST traefik" \
-    -e E2E_TARGET=release -e E2E_OUTPUT_DIR=/results/release e2e npm --prefix /workspace/plugin-dev-test run test:e2e
+bin/run ../plugin-dev-test/tests/dev.pools
+bin/run ../theme-dev-test/tests/release.pools ../plugin-dev-test/tests/release.pools
 ```
 
-The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
+| Pool | Instances | Runs |
+|---|---|---|
+| `pdt` | 2 | browser tests, the test theme active |
+| `pdt-cli` | 1 | WP-CLI tests |
+| `pdt-lifecycle` | 1 | lifecycle tests |
+| `pdt-release`, `pdt-release-cli`, `pdt-release-lifecycle` | 2, 1, 1 | the same against the release ZIPs |
 
-WP-CLI tests (`tests/cli/run`, Bash) run the plugin's command next to those of the test theme. The theme's command is checked only if the active theme offers it (`wp cli has-command`); otherwise the script prints a `skip:` line and goes on, like the browser tests branch on the plugin status. Call the script from the wp-dev-env directory with the Compose service of the site (`wordpress-release` after `scripts/release-test`; the release workflow does so with `cli-tests: true`):
+The browser tests need the test theme as active theme or as parent of the active child theme [theme-dev-test-child](https://github.com/saijsaij/theme-dev-test-child) (`requireTestTheme()` fails otherwise). Each Playwright worker has an instance of its own (`WP_BASE_URLS`, picked per worker in `tests/e2e/playwright.config.js`). The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
+
+WP-CLI tests run the plugin's command next to those of the test theme with `bin/wp` of wp-test-env. The theme's command is checked only if the active theme offers it (`wp cli has-command`); otherwise the script prints a `skip:` line and goes on, like the browser tests branch on the plugin status. The release workflow runs them with `cli-tests: true`.
+
+Lifecycle tests deactivate, activate and uninstall the plugin with WP-CLI and check what the framework and the lifecycle methods did: the uninstallation removes the posts of the plugin's post type, its meta keys (also on posts of WordPress), its settings, its table, its cron events, its options and its cache directory, not its files (`--skip-delete`). The plugin is active again at the end; the pool gives them an instance of their own, since they delete all notes of the plugin.
+
+Single specs or scripts against an instance of your own, from the wp-test-env directory:
 
 ```sh
-../plugin-dev-test/tests/cli/run wordpress
-../plugin-dev-test/tests/cli/run wordpress-release
-```
-
-Lifecycle tests (`tests/lifecycle/run`, Bash) deactivate, activate and uninstall the plugin with WP-CLI and check what the framework and the lifecycle methods did: the uninstallation removes the posts of the plugin's post type, its meta keys (also on posts of WordPress), its settings, its table, its cron events, its options and its cache directory, not its files (`--skip-delete`). The plugin is active again at the end; run the script after the other suites, it deletes all notes of the plugin:
-
-```sh
-../plugin-dev-test/tests/lifecycle/run wordpress
-../plugin-dev-test/tests/lifecycle/run wordpress-release
+bin/up pdt --theme theme-dev-test --plugin plugin-dev-test --activate theme-dev-test
+bin/e2e --instances pdt --project plugin-dev-test --results pdt -- specs/block.spec.js
+../plugin-dev-test/tests/cli/run pdt
+bin/down pdt
 ```
 
 | Spec | Covers | Code under test |

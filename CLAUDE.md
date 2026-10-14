@@ -14,16 +14,22 @@ Test plugin of [wp-app-framework](https://github.com/saijsaij/wp-app-framework) 
 
 ## Commands
 
-Run from a [wp-dev-env](https://github.com/saijsaij/wp-dev-env) checkout next to this repository. Every check must pass without errors or warnings.
+Run from this directory, with [wp-test-env](https://github.com/saijsaij/wp-test-env) checked out next to it. Every check must pass without errors or warnings.
 
 ```sh
-docker compose run --rm tools composer --working-dir=/workspace/plugin-dev-test build-manifest   # output must match the README
-docker compose run --rm tools composer --working-dir=/workspace/plugin-dev-test lint             # fix: composer fix
-docker compose run --rm tools npm --prefix /workspace/plugin-dev-test run lint                    # fix: npm run format
-docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
-../plugin-dev-test/tests/cli/run wordpress                                                       # WP-CLI tests (src/Cli/, needs the test theme)
-../plugin-dev-test/tests/lifecycle/run wordpress                                                 # lifecycle tests (src/Lifecycle/); run last, uninstalls the plugin
+../wp-test-env/bin/tools -w plugin-dev-test composer build-manifest   # output must match the README
+../wp-test-env/bin/tools -w plugin-dev-test composer lint             # fix: composer fix
+../wp-test-env/bin/tools -w plugin-dev-test npm run lint              # fix: npm run format
 ```
+
+Browser, WP-CLI (`tests/cli/run`, needs the test theme) and lifecycle tests (`tests/lifecycle/run`, uninstalls the plugin, own instance) run in fresh instances of wp-test-env, from its directory:
+
+```sh
+bin/run ../plugin-dev-test/tests/dev.pools                 # before a push, with the pool files of the other test projects
+bin/run ../theme-dev-test/tests/release.pools ../plugin-dev-test/tests/release.pools   # at a release
+```
+
+Every Playwright worker has an instance of its own (`WP_BASE_URLS`, `tests/e2e/playwright.config.js`); a spec must not depend on another spec file. The test timeout is 30 s.
 
 Release build and release test: see "Release" and "Tests" in the README.
 

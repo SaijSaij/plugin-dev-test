@@ -1,0 +1,28 @@
+# Test pools of the plugin's release ZIP next to the test theme's, for bin/run of
+# wp-test-env (https://github.com/saijsaij/wp-test-env), e.g. from its directory:
+#
+#   bin/run ../theme-dev-test/tests/release.pools ../plugin-dev-test/tests/release.pools
+#
+# Builds the plugin's release ZIP with the framework checkout; the theme ZIP is the
+# newest in theme-dev-test/dist/ (built by the theme's release pools if given first).
+prepare plugin-dev-test
+link saij/wp-app-framework=wp-app-framework
+link saij/plugin-dev-test=plugin-dev-test
+link saij/theme-dev-test=theme-dev-test
+tools plugin-dev-test composer release -- --package-source=saij/wp-app-framework=../wp-app-framework
+
+pool pdt-release
+instances 2
+theme-zip theme-dev-test/dist/theme-dev-test-*.zip
+plugin-zip plugin-dev-test/dist/plugin-dev-test-*.zip
+e2e plugin-dev-test
+
+pool pdt-release-cli
+theme-zip theme-dev-test/dist/theme-dev-test-*.zip
+plugin-zip plugin-dev-test/dist/plugin-dev-test-*.zip
+run plugin-dev-test/tests/cli/run {instance}
+
+pool pdt-release-lifecycle
+theme-zip theme-dev-test/dist/theme-dev-test-*.zip
+plugin-zip plugin-dev-test/dist/plugin-dev-test-*.zip
+run plugin-dev-test/tests/lifecycle/run {instance}
