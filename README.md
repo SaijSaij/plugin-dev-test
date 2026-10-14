@@ -42,7 +42,7 @@ docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 27 service candidates, 18 services, 1 hooks, 11 routes, 34 template functions, 1 template filters, 3 blocks, 1 CLI commands. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 28 service candidates, 19 services, 1 hooks, 14 routes, 34 template functions, 1 template filters, 3 blocks, 1 CLI commands. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
 ```
 
@@ -78,6 +78,7 @@ WP-CLI tests (`tests/cli/run`, Bash) run the plugin's command next to those of t
 | `view.spec.js` | View script of the plugin's block: loaded with the plugin's view runtime, marker with the plugin's slug, mounted next to the theme's view scripts (if the active test theme has them), preview in the editor | `src/Block/Counter/` |
 | `tests/cli/run` | WP-CLI command of the plugin `wp plugin-dev-test check ping` with an optional argument and the namespace of the plugin, next to `wp dev-test check values` of the theme: two instances, separate namespaces | `src/Cli/` |
 | `mode.spec.js` | Development and release mode, prefixed classes, init action `wp_app_framework/init/plugin-dev-test`, URL from `plugin_dir_url()` | `src/Mode/` |
+| `tables.spec.js` | The plugin's table `wp_plugin_dev_test_log` (the same local name as the theme's `log`): a row saved and found through its own row class and a field class written by hand; the theme's table is another one (only checked if the active theme has tables) | `src/Table/` |
 
 ## Structure
 
