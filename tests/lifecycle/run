@@ -1,0 +1,203 @@
+#!/usr/bin/env bash
+# Lifecycle tests of the plugin: deactivates, activates and uninstalls it with
+# WP-CLI and checks what the framework and the plugin's lifecycle methods
+# (src/Lifecycle/) did. Uninstalling removes all data of the plugin – posts of its
+# post type, its meta keys (also on posts of WordPress), its settings, its table,
+# its cron events, its options and its cache directory – but not its files
+# (--skip-delete). At the end the plugin is active again; the data the test
+# created is gone, the table is recreated. Run it from the wp-dev-env directory
+# with the Compose service of the site, after the other suites:
+#
+#   ../plugin-dev-test/tests/lifecycle/run wordpress           # development mode (checkouts)
+#   ../plugin-dev-test/tests/lifecycle/run wordpress-release   # release ZIPs of scripts/release-test
+set -euo pipefail
+
+if [[ $# -ne 1 || ( "$1" != wordpress && "$1" != wordpress-release ) ]]; then
+    echo "usage: $0 wordpress|wordpress-release (run from the wp-dev-env directory)" >&2
+    exit 2
+fi
+service="$1"
+if [[ ! -f compose.yaml ]]; then
+    echo "ERROR: run $0 from the wp-dev-env directory (no compose.yaml in $(pwd))." >&2
+    exit 2
+fi
+
+plugin=plugin-dev-test
+probe=plugin_dev_test_lifecycle_probe
+clean_up=wp_app_framework/cache/clean_up/plugin-dev-test
+# A version of a cache tag of the plugin, and an option of another instance whose name starts like one.
+tag_option=plugin_dev_test_cache_tag_0123456789abcdef0123456789abcdef
+decoy_option=plugin_dev_test_cache_tag_decoy
+
+stderr_file="$(mktemp)"
+failures=0
+stdout=''
+stderr=''
+status=0
+core_post=''
+note=''
+
+# Runs wp in the service as the web server user; sets stdout, stderr and status.
+wp_cli() {
+    set +e
+    stdout="$(docker compose exec -T -u www-data -e PAGER=cat "${service}" wp "$@" 2>"${stderr_file}")"
+    status=$?
+    set -e
+    stderr="$(cat "${stderr_file}")"
+}
+
+fail() {
+    echo "FAIL: $1" >&2
+    echo "  exit code: ${status}" >&2
+    echo "  stdout: ${stdout}" >&2
+    echo "  stderr: ${stderr}" >&2
+    failures=$((failures + 1))
+}
+
+# expect_stdout <test> <exit code> <exact stdout>
+expect_stdout() {
+    if [[ "${status}" -ne "$2" || "${stdout}" != "$3" ]]; then
+        fail "$1 (expected exit code $2 and stdout: $3)"
+    else
+        echo "ok: $1"
+    fi
+}
+
+# expect_status <test> <exit code>
+expect_status() {
+    if [[ "${status}" -ne "$2" ]]; then
+        fail "$1 (expected exit code $2)"
+    else
+        echo "ok: $1"
+    fi
+}
+
+# Activations, deactivations and uninstallations counted by src/Lifecycle/LifecycleProbe.php.
+probe_counts() {
+    wp_cli eval "\$c = get_option('${probe}', []); printf('%d %d %d', \$c['activation'] ?? 0, \$c['deactivation'] ?? 0, \$c['uninstall'] ?? 0);"
+}
+
+# Whether the cron event of the plugin's cache clean-up is scheduled: yes or no.
+clean_up_scheduled() {
+    wp_cli eval "echo wp_next_scheduled('${clean_up}') === false ? 'no' : 'yes';"
+}
+
+# The plugin's tables, separated by commas (wp db query needs a MySQL client, which the image does not have).
+plugin_tables() {
+    wp_cli eval "global \$wpdb; echo implode(',', \$wpdb->get_col(\$wpdb->prepare('SHOW TABLES LIKE %s', \$wpdb->prefix . \$wpdb->esc_like('plugin_dev_test_') . '%')));"
+}
+
+# The result of a query with a single value.
+query_value() {
+    wp_cli eval "global \$wpdb; echo \$wpdb->get_var(\"$1\");"
+}
+
+# Leaves the plugin active and deletes what the test created, also after a failure.
+restore() {
+    set +e
+    wp_cli plugin is-active "${plugin}"
+    if [[ "${status}" -ne 0 ]]; then
+        wp_cli plugin activate "${plugin}"
+    fi
+    wp_cli option delete "${probe}" "${tag_option}" "${decoy_option}"
+    if [[ -n "${core_post}" ]]; then
+        wp_cli post delete "${core_post}" --force
+    fi
+    # Deleted by the uninstallation unless it failed.
+    if [[ -n "${note}" ]]; then
+        wp_cli post delete "${note}" --force
+    fi
+    rm -f "${stderr_file}"
+}
+trap restore EXIT
+
+wp_cli plugin is-active "${plugin}"
+if [[ "${status}" -ne 0 ]]; then
+    echo "ERROR: the plugin ${plugin} must be active." >&2
+    exit 2
+fi
+wp_cli option delete "${probe}"
+
+# Deactivation: the lifecycle method runs, the cron events of the plugin are removed and the uninstall hook registered.
+wp_cli plugin deactivate "${plugin}"
+expect_status 'deactivate the plugin' 0
+probe_counts
+expect_stdout 'deactivation runs #[OnDeactivation]' 0 '0 1 0'
+clean_up_scheduled
+expect_stdout 'deactivation removes the cron events' 0 'no'
+wp_cli option get plugin_dev_test_cron
+expect_status 'deactivation removes the cron state' 1
+wp_cli eval "echo var_export(get_option('uninstall_plugins')['${plugin}/${plugin}.php'] ?? null, true);"
+if [[ "${status}" -eq 0 && "${stdout}" == *"'uninstallPlugin'"* && "${stdout}" == *'LifecycleRegistrar'* ]]; then
+    echo 'ok: deactivation registers the uninstall hook'
+else
+    fail 'deactivation registers the uninstall hook'
+fi
+
+# Activation: the lifecycle method runs; the next request schedules the cron events again.
+wp_cli plugin activate "${plugin}"
+expect_status 'activate the plugin' 0
+probe_counts
+expect_stdout 'activation runs #[OnActivation]' 0 '1 1 0'
+clean_up_scheduled
+expect_stdout 'the next request schedules the cron events again' 0 'yes'
+
+# Data of the plugin and of another instance.
+wp_cli post create --post_type=plugin_dev_test_note --post_title='Lifecycle note' --post_status=draft --porcelain
+note="${stdout}"
+wp_cli post meta update "${note}" plugin_dev_test_priority 5
+expect_status 'meta of the note' 0
+wp_cli post create --post_title='Lifecycle post' --post_status=draft --porcelain
+core_post="${stdout}"
+wp_cli post meta update "${core_post}" plugin_dev_test_stars 4
+expect_status 'meta of the plugin on a post of WordPress' 0
+wp_cli post meta update "${core_post}" lifecycle_test_other kept
+wp_cli option update plugin_dev_test_general '{"greeting":"Hi","enabled":true}' --format=json
+expect_status 'settings of the plugin' 0
+wp_cli option add "${tag_option}" 1
+wp_cli option add "${decoy_option}" 1
+plugin_tables
+expect_stdout 'the table of the plugin exists' 0 'wp_plugin_dev_test_log'
+
+# Uninstallation of the inactive plugin, as in the admin: WordPress loads the plugin only now, after `init`. The
+# lifecycle method runs, then the framework removes the data.
+wp_cli plugin deactivate "${plugin}"
+expect_status 'deactivate the plugin before its uninstallation' 0
+wp_cli plugin uninstall "${plugin}" --skip-delete
+expect_status 'uninstall the plugin' 0
+probe_counts
+expect_stdout 'uninstallation runs #[OnDeactivation] and #[OnUninstall]' 0 '1 2 1'
+query_value "SELECT COUNT(*) FROM {\$wpdb->posts} WHERE post_type = 'plugin_dev_test_note'"
+expect_stdout 'the posts of the post type are deleted' 0 '0'
+query_value "SELECT COUNT(*) FROM {\$wpdb->postmeta} WHERE meta_key IN ('plugin_dev_test_priority', 'plugin_dev_test_stars')"
+expect_stdout 'the meta keys are deleted, also on posts of WordPress' 0 '0'
+wp_cli post meta get "${core_post}" lifecycle_test_other
+expect_stdout 'the post of WordPress and its other meta stay' 0 'kept'
+plugin_tables
+expect_stdout 'the table is dropped' 0 ''
+for option in plugin_dev_test_general plugin_dev_test_tables plugin_dev_test_cron "${tag_option}"; do
+    wp_cli option get "${option}"
+    expect_status "the option ${option} is deleted" 1
+done
+wp_cli option get "${decoy_option}"
+expect_stdout 'an option that only starts like a cache tag stays' 0 '1'
+clean_up_scheduled
+expect_stdout 'the cron events are removed' 0 'no'
+wp_cli eval "echo is_dir(WP_CONTENT_DIR . '/cache/${plugin}') ? 'yes' : 'no';"
+expect_stdout 'the cache directory is removed' 0 'no'
+wp_cli eval "echo isset(get_option('uninstall_plugins', [])['${plugin}/${plugin}.php']) ? 'yes' : 'no';"
+expect_stdout 'WordPress forgets the uninstall hook' 0 'no'
+wp_cli plugin is-installed "${plugin}"
+expect_status 'the files of the plugin stay' 0
+
+# Activated again: the next request creates the table.
+wp_cli plugin activate "${plugin}"
+expect_status 'activate the plugin again' 0
+plugin_tables
+expect_stdout 'the table is created again' 0 'wp_plugin_dev_test_log'
+
+if [[ "${failures}" -ne 0 ]]; then
+    echo "${failures} lifecycle test(s) failed against ${service}." >&2
+    exit 1
+fi
+echo "All lifecycle tests passed against ${service}."

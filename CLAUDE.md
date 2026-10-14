@@ -22,6 +22,7 @@ docker compose run --rm tools composer --working-dir=/workspace/plugin-dev-test 
 docker compose run --rm tools npm --prefix /workspace/plugin-dev-test run lint                    # fix: npm run format
 docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 ../plugin-dev-test/tests/cli/run wordpress                                                       # WP-CLI tests (src/Cli/, needs the test theme)
+../plugin-dev-test/tests/lifecycle/run wordpress                                                 # lifecycle tests (src/Lifecycle/); run last, uninstalls the plugin
 ```
 
 Release build and release test: see "Release" and "Tests" in the README.

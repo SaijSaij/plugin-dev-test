@@ -42,7 +42,7 @@ docker compose run --rm e2e npm --prefix /workspace/plugin-dev-test run test:e2e
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 28 service candidates, 19 services, 1 hooks, 14 routes, 34 template functions, 1 template filters, 3 blocks, 1 CLI commands, 0 cron events, 0 cron tasks, 1 tables. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 29 service candidates, 20 services, 1 hooks, 14 routes, 34 template functions, 1 template filters, 3 blocks, 1 CLI commands, 0 cron events, 0 cron tasks, 1 tables, 3 lifecycle methods. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
 ```
 
@@ -64,6 +64,13 @@ WP-CLI tests (`tests/cli/run`, Bash) run the plugin's command next to those of t
 ../plugin-dev-test/tests/cli/run wordpress-release
 ```
 
+Lifecycle tests (`tests/lifecycle/run`, Bash) deactivate, activate and uninstall the plugin with WP-CLI and check what the framework and the lifecycle methods did: the uninstallation removes the posts of the plugin's post type, its meta keys (also on posts of WordPress), its settings, its table, its cron events, its options and its cache directory, not its files (`--skip-delete`). The plugin is active again at the end; run the script after the other suites, it deletes all notes of the plugin:
+
+```sh
+../plugin-dev-test/tests/lifecycle/run wordpress
+../plugin-dev-test/tests/lifecycle/run wordpress-release
+```
+
 | Spec | Covers | Code under test |
 |---|---|---|
 | `block.spec.js` | Block of the plugin: inline editing, re-render through the plugin's render route, `registerPanel` of the plugin's instance, stored content, front end | `src/Block/Note/` |
@@ -77,6 +84,7 @@ WP-CLI tests (`tests/cli/run`, Bash) run the plugin's command next to those of t
 | `settings.spec.js` | Settings group of the plugin with the same name as the theme's (`general`): own option `plugin_dev_test_general`, own page under Settings (one group, no tabs), template global with the plugin's groups only, options of the theme unchanged | `src/Setting/` |
 | `view.spec.js` | View script of the plugin's block: loaded with the plugin's view runtime, marker with the plugin's slug, mounted next to the theme's view scripts (if the active test theme has them), preview in the editor | `src/Block/Counter/` |
 | `tests/cli/run` | WP-CLI command of the plugin `wp plugin-dev-test check ping` with an optional argument and the namespace of the plugin, next to `wp dev-test check values` of the theme (skipped if the active theme does not offer it): two instances, separate namespaces | `src/Cli/` |
+| `tests/lifecycle/run` | Deactivation, activation and uninstallation of the plugin: `#[OnActivation]`, `#[OnDeactivation]`, `#[OnUninstall]`, cron events removed on deactivation, uninstall hook registered, uninstallation of the inactive plugin removes its data and only its data | `src/Lifecycle/` |
 | `mode.spec.js` | Development and release mode, prefixed classes, init action `wp_app_framework/init/plugin-dev-test`, URL from `plugin_dir_url()` | `src/Mode/` |
 | `tables.spec.js` | The plugin's table `wp_plugin_dev_test_log` (the same local name as the theme's `log`): a row saved and found through its own row class and a field class written by hand; the theme's table is another one (only checked if the active theme has tables) | `src/Table/` |
 
