@@ -32,3 +32,4 @@ Release build and release test: see "Release" and "Tests" in the README.
 - Expected `build-manifest` output in the README when counts change.
 - The framework is required as `dev-main`; after a framework change is pushed, `composer update saij/wp-app-framework`.
 - A release tag `v<version>` must equal `Version:` in `plugin-dev-test.php`. `with-theme` in `.github/workflows/release.yml` names the theme release the plugin is tested with; it must contain everything the suite expects from the theme.
+- Every GitHub release gets short release notes instead of the generated compare link alone: what the plugin tests anew, the framework version it is built with and the theme release it is tested with (`with-theme`), and the compare link last. The release workflow creates the release with `--generate-notes`; once it has passed, replace the text with `gh release edit <tag> --notes-file <file>` (a rerun only uploads the ZIP and keeps the text).
