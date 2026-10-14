@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # WP-CLI tests of the plugin: runs its command of src/Cli/ next to the commands of
 # the test theme (two framework instances with separate namespaces) and checks
-# their output and exit codes. Needs theme-dev-test with its WP-CLI commands as
-# active theme or as parent of the active child theme. Run it from the wp-dev-env
-# directory with the Compose service of the site:
+# their output and exit codes. The command of the theme is checked only if the
+# active theme offers it (theme-dev-test with its WP-CLI commands, as active theme
+# or as parent of the active child theme); otherwise the check is skipped. Run it
+# from the wp-dev-env directory with the Compose service of the site:
 #
 #   ../plugin-dev-test/tests/cli/run wordpress           # development mode (checkouts)
 #   ../plugin-dev-test/tests/cli/run wordpress-release   # release ZIPs of scripts/release-test
@@ -81,8 +82,16 @@ expect_output 'namespace of the plugin' 0 'Commands of the plugin plugin-dev-tes
 wp_cli plugin-dev-test check values hello --mode=full
 expect_output 'commands of the theme are not in the namespace of the plugin' 1 "'values' is not a registered subcommand of 'plugin-dev-test check'"
 
-wp_cli dev-test check values hello --mode=full
-expect_stdout 'command of the theme next to the plugin' 0 '{"text":["hello","string"],"count":[1,"int"],"ratio":[null,"null"],"mode":["full","CheckMode::Full"],"upper":[false,"bool"]}'
+# The theme's command only if the active theme offers it, like the browser tests branch on the plugin status.
+wp_cli cli has-command 'dev-test check values'
+if [[ "${status}" -eq 0 ]]; then
+    wp_cli dev-test check values hello --mode=full
+    expect_stdout 'command of the theme next to the plugin' 0 '{"text":["hello","string"],"count":[1,"int"],"ratio":[null,"null"],"mode":["full","CheckMode::Full"],"upper":[false,"bool"]}'
+elif [[ "${status}" -eq 1 && -z "${stderr}" ]]; then
+    echo "skip: command of the theme next to the plugin (the active theme has no 'wp dev-test check values')"
+else
+    fail 'wp cli has-command (expected exit code 0 or 1)'
+fi
 
 if [[ "${failures}" -ne 0 ]]; then
     echo "${failures} WP-CLI test(s) failed against ${service}." >&2
