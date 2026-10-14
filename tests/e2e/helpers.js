@@ -53,6 +53,21 @@ async function requireTestTheme( requestUtils ) {
 }
 
 /**
+ * Whether the active test theme has static assets, document views and the override of the plugin's assets: it
+ * registers its block dev-test/asset-showcase since 0.13. The release workflow of the framework runs this suite next
+ * to older theme releases.
+ *
+ * @param {Object} requestUtils
+ * @return {Promise<boolean>} The theme has assets.
+ */
+async function themeHasAssets( requestUtils ) {
+	const response = await restResponse( requestUtils, {
+		path: '/wp/v2/block-types/dev-test/asset-showcase',
+	} );
+	return response.status === 200;
+}
+
+/**
  * Number of blocks a render request asked for.
  *
  * @param {import('@playwright/test').Request} request
@@ -324,6 +339,7 @@ async function measureBlocks( blocks ) {
 }
 
 module.exports = {
+	themeHasAssets,
 	trackPost,
 	block,
 	blockCount,

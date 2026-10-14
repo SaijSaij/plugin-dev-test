@@ -5,7 +5,11 @@
  */
 const { test, expect } = require( '../fixtures' );
 
-const { requireTestTheme, restResponse } = require( '../helpers' );
+const {
+	requireTestTheme,
+	restResponse,
+	themeHasAssets,
+} = require( '../helpers' );
 
 const PLUGIN = '/wp-content/plugins/plugin-dev-test/assets/images/';
 
@@ -29,8 +33,11 @@ test.describe( 'Static assets', () => {
 			/^[0-9a-f]{12}$/
 		);
 		expect( path( body.exact ) ).toBe( `${ PLUGIN }badge.svg` );
+		// Theme releases before assets (0.13) have no override of the badge.
 		expect( path( body.badge ) ).toBe(
-			'/wp-content/themes/theme-dev-test/overrides/plugin-dev-test/assets/images/badge.svg'
+			( await themeHasAssets( requestUtils ) )
+				? '/wp-content/themes/theme-dev-test/overrides/plugin-dev-test/assets/images/badge.svg'
+				: `${ PLUGIN }badge.svg`
 		);
 		for ( const url of [ body.plain, body.exact, body.badge ] ) {
 			expect( ( await request.get( url ) ).status() ).toBe( 200 );

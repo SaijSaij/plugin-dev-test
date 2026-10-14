@@ -4,7 +4,7 @@
  */
 const { test, expect } = require( '../fixtures' );
 
-const { requireTestTheme } = require( '../helpers' );
+const { requireTestTheme, themeHasAssets } = require( '../helpers' );
 
 test.describe( 'Document views', () => {
 	test.beforeEach( async ( { requestUtils } ) => {
@@ -13,6 +13,7 @@ test.describe( 'Document views', () => {
 
 	test( 'run with the view data and shared modules of their own instance', async ( {
 		page,
+		requestUtils,
 	} ) => {
 		await page.goto( '/' );
 
@@ -29,6 +30,10 @@ test.describe( 'Document views', () => {
 			page.locator( '#plugin-dev-test-document-document-view-js' )
 		).toHaveCount( 1 );
 
+		// Theme releases before document views (0.13) have none.
+		if ( ! ( await themeHasAssets( requestUtils ) ) ) {
+			return;
+		}
 		// The theme's document view also takes the first place, in its own module.
 		await expect( html ).toHaveAttribute(
 			'data-dev-test-document',
