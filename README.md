@@ -101,3 +101,7 @@ bin/down pdt
 - `build/` (not versioned) is the output of the script and stylesheet build (`assets/styles.css`, Tailwind with the prefix `pdt`, because class names are global).
 
 Caches: `wp-content/cache/plugin-dev-test/manifest/` (development), `wp-content/cache/plugin-dev-test/twig/<template version>/[<theme versions>/]` (release).
+
+## License
+
+[GPL-2.0-or-later](LICENSE), like WordPress.

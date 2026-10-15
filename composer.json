@@ -2,13 +2,7 @@
     "name": "saij/plugin-dev-test",
     "description": "Test plugin for wp-app-framework: its build and browser tests run against this plugin next to the test theme.",
     "type": "wordpress-plugin",
-    "license": "proprietary",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/saijsaij/wp-app-framework"
-        }
-    ],
+    "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=8.5",
         "saij/wp-app-framework": "dev-main"
