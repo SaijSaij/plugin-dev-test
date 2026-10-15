@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Saij\PluginDevTest\Block\Note;
 
-use Saij\WpAppFramework\Block\PlainText;
-use Saij\WpAppFramework\Block\RichText;
+use Saij\WpAppFramework\Value\PlainText;
+use Saij\WpAppFramework\Value\RichText;
 
 final readonly class NoteAttributes
 {

@@ -16,4 +16,4 @@ jobs:
     uses: SaijSaij/wp-app-framework/.github/workflows/consumer-release.yml@main
     with:
       with-theme: SaijSaij/theme-dev-test@v0.13.0
-      cli-tests: true
+      cli: true

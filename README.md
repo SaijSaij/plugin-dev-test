@@ -62,7 +62,7 @@ bin/run ../theme-dev-test/tests/release.pools ../plugin-dev-test/tests/release.p
 
 The browser tests need the test theme as active theme or as parent of the active child theme [theme-dev-test-child](https://github.com/saijsaij/theme-dev-test-child) (`requireTestTheme()` fails otherwise). Each Playwright worker has an instance of its own (`WP_BASE_URLS`, picked per worker in `tests/e2e/playwright.config.js`). The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
 
-WP-CLI tests run the plugin's command next to those of the test theme with `bin/wp` of wp-test-env. The theme's command is checked only if the active theme offers it (`wp cli has-command`); otherwise the script prints a `skip:` line and goes on, like the browser tests branch on the plugin status. The release workflow runs them with `cli-tests: true`.
+WP-CLI tests run the plugin's command next to those of the test theme with `bin/wp` of wp-test-env. The theme's command is checked only if the active theme offers it (`wp cli has-command`); otherwise the script prints a `skip:` line and goes on, like the browser tests branch on the plugin status. The release workflow runs them with `cli: true`.
 
 Lifecycle tests deactivate, activate and uninstall the plugin with WP-CLI and check what the framework and the lifecycle methods did: the uninstallation removes the posts of the plugin's post type, its meta keys (also on posts of WordPress), its settings, its table, its cron events, its options and its cache directory, not its files (`--skip-delete`). The plugin is active again at the end; the pool gives them an instance of their own, since they delete all notes of the plugin.
 
