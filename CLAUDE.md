@@ -26,7 +26,7 @@ Browser, WP-CLI (`tests/cli/run`, needs the test theme) and lifecycle tests (`te
 
 ```sh
 bin/run ../plugin-dev-test/tests/dev.pools                 # before a push, with the pool files of the other test projects
-bin/run ../theme-dev-test/tests/release.pools ../plugin-dev-test/tests/release.pools   # at a release
+bin/run ../theme-dev-test/tests/release.pools ../plugin-dev-test/tests/release.pools   # to reproduce a failed release workflow
 ```
 
 Every Playwright worker has an instance of its own (`WP_BASE_URLS`, `tests/e2e/playwright.config.js`); a spec must not depend on another spec file. The test timeout is 30 s.
