@@ -36,7 +36,7 @@ test.describe( 'Block support of the plugin', () => {
 				} ),
 				// The theme's own support (if this theme release has it) does not know "tinted".
 				block( 'dev-test/hero', {
-					topline: 'Theme',
+					subline: 'Theme',
 					surface: 'tinted',
 				} ),
 			].join( '\n\n' )

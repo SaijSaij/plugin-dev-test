@@ -31,7 +31,7 @@ test.describe( 'Excerpt', () => {
 					title: 'Note first',
 					text: 'Not in the excerpt',
 				} ),
-				block( 'dev-test/hero', { topline: 'Hero second' } ),
+				block( 'dev-test/hero', { subline: 'Hero second' } ),
 				block( 'plugin-dev-test/note', { title: 'Note third' } ),
 			].join( '\n\n' ),
 		} );

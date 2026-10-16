@@ -16,7 +16,7 @@ const {
 } = require( '../helpers' );
 
 const POST = [
-	block( 'dev-test/hero', { topline: 'Theme hero' } ),
+	block( 'dev-test/hero', { subline: 'Theme hero' } ),
 	block( 'plugin-dev-test/note', { title: 'Plugin note' } ),
 ].join( '\n\n' );
 
@@ -41,7 +41,7 @@ test.describe( 'Theme and plugin', () => {
 
 		await expect(
 			editor.canvas.locator(
-				'[data-type="dev-test/hero"] .hero__topline'
+				'[data-type="dev-test/hero"] .hero__subline'
 			)
 		).toHaveText( 'Theme hero' );
 		await expect(
@@ -94,7 +94,7 @@ test.describe( 'Theme and plugin', () => {
 		await page.goto( `/?p=${ id }&preview=true` );
 
 		await expect(
-			page.locator( '.wp-block-dev-test-hero .hero__topline' )
+			page.locator( '.wp-block-dev-test-hero .hero__subline' )
 		).toHaveText( 'Theme hero' );
 		await expect(
 			page.locator( '.wp-block-plugin-dev-test-note .note__title' )
