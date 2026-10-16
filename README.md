@@ -46,7 +46,7 @@ Public: 1 APIs, 3 template functions and filters.
 Assets: 2 static files, 0 image variants.
 ```
 
-Browser tests (Playwright, `tests/e2e/`), WP-CLI tests (`tests/cli/run`) and lifecycle tests (`tests/lifecycle/run`) run in fresh WordPress instances of wp-test-env, described in `tests/dev.pools` (the checkouts of plugin and test theme) and `tests/release.pools` (the plugin's release ZIP, built first with the framework checkout, next to the newest ZIP in `theme-dev-test/dist/`). From the wp-test-env directory:
+Browser tests (Playwright, `tests/e2e/`), WP-CLI tests (`tests/cli/run`) and lifecycle tests (`tests/lifecycle/run`) run in fresh WordPress instances of wp-test-env, described in `tests/dev.pools` (the checkouts of plugin and test theme) and `tests/release.pools` (the plugin's release ZIP, built first with the framework checkout, next to the release of the test theme that `with-theme` in `.github/workflows/release.yml` names, downloaded by `tests/download-with-theme`, as in the release workflow). From the wp-test-env directory:
 
 ```sh
 bin/run ../plugin-dev-test/tests/dev.pools
