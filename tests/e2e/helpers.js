@@ -4,7 +4,7 @@ const { request: apiRequest } = require( '@playwright/test' );
 const RENDER_ROUTE = '/wp-app-framework/v1/plugin-dev-test/render';
 const THEME_RENDER_ROUTE = '/wp-app-framework/v1/theme-dev-test/render';
 
-/** The test theme, which the tests of the interplay need (https://github.com/saijsaij/theme-dev-test). */
+/** The test theme, which the tests of the interplay need (https://github.com/webcodingcat/theme-dev-test). */
 const TEST_THEME = 'theme-dev-test';
 
 /** The tests run against the release ZIP (E2E_TARGET=release, checked in playwright.config.js). */
@@ -35,7 +35,7 @@ function trackRenderRequests( page, route = RENDER_ROUTE ) {
 
 /**
  * Fails unless the test theme is the active theme or the parent of the active child theme
- * (https://github.com/saijsaij/theme-dev-test-child): the tests of the interplay use its blocks.
+ * (https://github.com/webcodingcat/theme-dev-test-child): the tests of the interplay use its blocks.
  *
  * @param {Object} requestUtils
  */

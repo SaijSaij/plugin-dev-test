@@ -4,7 +4,7 @@
 # their output and exit codes. The command of the theme is checked only if the
 # active theme offers it (theme-dev-test with its WP-CLI commands, as active theme
 # or as parent of the active child theme); otherwise the check is skipped. Run it
-# against an instance of wp-test-env (https://github.com/saijsaij/wp-test-env,
+# against an instance of wp-test-env (https://github.com/webcodingcat/wp-test-env,
 # checked out next to this repository) in development mode (checkouts) or release
 # mode (release ZIPs):
 #
@@ -19,7 +19,7 @@ instance="$1"
 # wp-test-env is checked out next to this repository.
 test_env="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/wp-test-env"
 if [[ ! -x "${test_env}/bin/wp" ]]; then
-    echo "ERROR: ${test_env}/bin/wp not found; check out wp-test-env (https://github.com/saijsaij/wp-test-env) next to this repository." >&2
+    echo "ERROR: ${test_env}/bin/wp not found; check out wp-test-env (https://github.com/webcodingcat/wp-test-env) next to this repository." >&2
     exit 2
 fi
 

@@ -1,6 +1,6 @@
 # plugin-dev-test
 
-Test plugin of [wp-app-framework](https://github.com/saijsaij/wp-app-framework). It is not a product plugin: its block, hook, routes, templates and public interface exist to exercise the framework in a plugin, next to the test theme [theme-dev-test](https://github.com/saijsaij/theme-dev-test).
+Test plugin of [wp-app-framework](https://github.com/webcodingcat/wp-app-framework). It is not a product plugin: its block, hook, routes, templates and public interface exist to exercise the framework in a plugin, next to the test theme [theme-dev-test](https://github.com/webcodingcat/theme-dev-test).
 
 - Plugin slug (directory name): `plugin-dev-test`, main file `plugin-dev-test.php`
 - Block namespace: `plugin-dev-test/`, REST namespace: `plugin-dev-test/v1`, template prefix `plugin_dev_test_`
@@ -16,21 +16,21 @@ The test theme uses all three; its `plugin.spec.js` checks them.
 
 ## Development
 
-The framework is required from its GitHub repository as `dev-main`, like in the test theme. Clone the repositories side by side and develop with [wp-dev-env](https://github.com/saijsaij/wp-dev-env) with `WP_THEMES=theme-dev-test`, `WP_ACTIVE_THEME=theme-dev-test`, `WP_PLUGINS=plugin-dev-test` and `WP_PACKAGE_LINKS=saij/wp-app-framework=wp-app-framework`; its setup runs `composer install`, `npm ci` and `npm run build` for theme and plugin and activates the plugin.
+The framework is required from its GitHub repository as `dev-main`, like in the test theme. Clone the repositories side by side and develop with [wp-dev-env](https://github.com/webcodingcat/wp-dev-env) with `WP_THEMES=theme-dev-test`, `WP_ACTIVE_THEME=theme-dev-test`, `WP_PLUGINS=plugin-dev-test` and `WP_PACKAGE_LINKS=saij/wp-app-framework=wp-app-framework`; its setup runs `composer install`, `npm ci` and `npm run build` for theme and plugin and activates the plugin.
 
 ```sh
-git clone https://github.com/saijsaij/wp-app-framework.git
-git clone https://github.com/saijsaij/theme-dev-test.git
-git clone https://github.com/saijsaij/plugin-dev-test.git
+git clone https://github.com/webcodingcat/wp-app-framework.git
+git clone https://github.com/webcodingcat/theme-dev-test.git
+git clone https://github.com/webcodingcat/plugin-dev-test.git
 ```
 
 ## Release
 
-`composer release` builds `dist/plugin-dev-test-<version>.zip` with the release pipeline of the framework (see [Release](https://saijsaij.github.io/wp-app-framework/next/build-and-release/release.html) in its documentation); the framework comes from the lock file, or from the local checkout with `-- --package-source=saij/wp-app-framework=../wp-app-framework`. A tag `v<version>` (= `Version` in `plugin-dev-test.php`) runs `.github/workflows/release.yml`: build, release test next to the release of the test theme named there (`with-theme`) with all browser tests, then the ZIP is attached to the GitHub release of the tag.
+`composer release` builds `dist/plugin-dev-test-<version>.zip` with the release pipeline of the framework (see [Release](https://webcodingcat.github.io/wp-app-framework/next/build-and-release/release.html) in its documentation); the framework comes from the lock file, or from the local checkout with `-- --package-source=saij/wp-app-framework=../wp-app-framework`. A tag `v<version>` (= `Version` in `plugin-dev-test.php`) runs `.github/workflows/release.yml`: build, release test next to the release of the test theme named there (`with-theme`) with all browser tests, then the ZIP is attached to the GitHub release of the tag.
 
 ## Tests
 
-All checks run with [wp-test-env](https://github.com/saijsaij/wp-test-env), checked out next to this repository, and must pass without errors or warnings. From this directory:
+All checks run with [wp-test-env](https://github.com/webcodingcat/wp-test-env), checked out next to this repository, and must pass without errors or warnings. From this directory:
 
 ```sh
 ../wp-test-env/bin/tools -w plugin-dev-test composer build-manifest
@@ -60,7 +60,7 @@ bin/run ../theme-dev-test/tests/release.pools ../plugin-dev-test/tests/release.p
 | `pdt-lifecycle` | 1 | lifecycle tests |
 | `pdt-release`, `pdt-release-cli`, `pdt-release-lifecycle` | 2, 1, 1 | the same against the release ZIPs |
 
-The browser tests need the test theme as active theme or as parent of the active child theme [theme-dev-test-child](https://github.com/saijsaij/theme-dev-test-child) (`requireTestTheme()` fails otherwise). Each Playwright worker has an instance of its own (`WP_BASE_URLS`, picked per worker in `tests/e2e/playwright.config.js`). The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
+The browser tests need the test theme as active theme or as parent of the active child theme [theme-dev-test-child](https://github.com/webcodingcat/theme-dev-test-child) (`requireTestTheme()` fails otherwise). Each Playwright worker has an instance of its own (`WP_BASE_URLS`, picked per worker in `tests/e2e/playwright.config.js`). The console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
 
 WP-CLI tests run the plugin's command next to those of the test theme with `bin/wp` of wp-test-env. The theme's command is checked only if the active theme offers it (`wp cli has-command`); otherwise the script prints a `skip:` line and goes on, like the browser tests branch on the plugin status. The release workflow runs them with `cli: true`.
 

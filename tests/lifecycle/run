@@ -6,7 +6,7 @@
 # its cron events, its options and its cache directory – but not its files
 # (--skip-delete). At the end the plugin is active again; the data the test
 # created is gone, the table is recreated. Run it against its own instance of
-# wp-test-env (https://github.com/saijsaij/wp-test-env, checked out next to this
+# wp-test-env (https://github.com/webcodingcat/wp-test-env, checked out next to this
 # repository) in development mode (checkouts) or release mode (release ZIPs):
 #
 #   plugin-dev-test/tests/lifecycle/run <instance>
@@ -20,7 +20,7 @@ instance="$1"
 # wp-test-env is checked out next to this repository.
 test_env="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/wp-test-env"
 if [[ ! -x "${test_env}/bin/wp" ]]; then
-    echo "ERROR: ${test_env}/bin/wp not found; check out wp-test-env (https://github.com/saijsaij/wp-test-env) next to this repository." >&2
+    echo "ERROR: ${test_env}/bin/wp not found; check out wp-test-env (https://github.com/webcodingcat/wp-test-env) next to this repository." >&2
     exit 2
 fi
 

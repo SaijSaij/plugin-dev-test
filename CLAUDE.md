@@ -1,12 +1,12 @@
 # CLAUDE.md – plugin-dev-test
 
-Test plugin of [wp-app-framework](https://github.com/saijsaij/wp-app-framework) (slug `plugin-dev-test`, main file `plugin-dev-test.php`, namespace `plugin-dev-test`: blocks `plugin-dev-test/…`, REST `plugin-dev-test/v1`, template prefix `plugin_dev_test_`, PHP `Saij\PluginDevTest\`). Not a product plugin: it exercises the framework in a plugin next to the test theme [theme-dev-test](https://github.com/saijsaij/theme-dev-test). Framework principles, conventions and testing rules: the [developer documentation](https://saijsaij.github.io/wp-app-framework/next/development/) (in the framework checkout `docs/content/development/`) and the framework's CLAUDE.md; this file covers the plugin.
+Test plugin of [wp-app-framework](https://github.com/webcodingcat/wp-app-framework) (slug `plugin-dev-test`, main file `plugin-dev-test.php`, namespace `plugin-dev-test`: blocks `plugin-dev-test/…`, REST `plugin-dev-test/v1`, template prefix `plugin_dev_test_`, PHP `Saij\PluginDevTest\`). Not a product plugin: it exercises the framework in a plugin next to the test theme [theme-dev-test](https://github.com/webcodingcat/theme-dev-test). Framework principles, conventions and testing rules: the [developer documentation](https://webcodingcat.github.io/wp-app-framework/next/development/) (in the framework checkout `docs/content/development/`) and the framework's CLAUDE.md; this file covers the plugin.
 
 <!-- Maintainers: keep this file under 200 lines; the README holds commands in full and the spec table. -->
 
 ## Rules
 
-- This suite tests what the plugin brings itself and what works with every release of the test theme. What a consumer does with the plugin (public API, public template callables, overrides of plugin templates) is tested in the consumer's suite (`plugin.spec.js` of theme-dev-test, specs of [theme-dev-test-child](https://github.com/saijsaij/theme-dev-test-child)).
+- This suite tests what the plugin brings itself and what works with every release of the test theme. What a consumer does with the plugin (public API, public template callables, overrides of plugin templates) is tested in the consumer's suite (`plugin.spec.js` of theme-dev-test, specs of [theme-dev-test-child](https://github.com/webcodingcat/theme-dev-test-child)).
 - The public interface (`Api\NoteApi`, `plugin_dev_test_*` template callables, `Twig/Overridable.twig`) is used by other repositories: change it only together with them, and keep its signatures free of prefixed types (PHP, WordPress and own classes only).
 - The browser tests need theme-dev-test as active theme or as parent of the active child theme (`requireTestTheme()`).
 - Each test deletes exactly what it created; the console guard in `tests/e2e/fixtures.js` is the same as in the test theme.
@@ -14,7 +14,7 @@ Test plugin of [wp-app-framework](https://github.com/saijsaij/wp-app-framework) 
 
 ## Commands
 
-Run from this directory, with [wp-test-env](https://github.com/saijsaij/wp-test-env) checked out next to it. Every check must pass without errors or warnings.
+Run from this directory, with [wp-test-env](https://github.com/webcodingcat/wp-test-env) checked out next to it. Every check must pass without errors or warnings.
 
 ```sh
 ../wp-test-env/bin/tools -w plugin-dev-test composer build-manifest   # output must match the README
