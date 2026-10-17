@@ -20,7 +20,7 @@ test.describe( 'Mode', () => {
 			expect( response.body ).toEqual( {
 				release: IS_RELEASE,
 				devCache: ! IS_RELEASE,
-				frameworkClass: `${ VENDOR_PREFIX }Saij\\WpAppFramework\\Plugin`,
+				frameworkClass: `${ VENDOR_PREFIX }WebCodingCat\\WpAppFramework\\Plugin`,
 				twigClass: `${ VENDOR_PREFIX }Twig\\Environment`,
 				// wp_app_framework/init/plugin-dev-test fired once.
 				init: 1,

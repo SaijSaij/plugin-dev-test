@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Table;
+namespace WebCodingCat\PluginDevTest\Table;
 
-use Saij\WpAppFramework\Table\AbstractRow;
-use Saij\WpAppFramework\Table\Indexed;
-use Saij\WpAppFramework\Table\PrimaryKey;
-use Saij\WpAppFramework\Table\Table;
+use WebCodingCat\WpAppFramework\Table\AbstractRow;
+use WebCodingCat\WpAppFramework\Table\Indexed;
+use WebCodingCat\WpAppFramework\Table\PrimaryKey;
+use WebCodingCat\WpAppFramework\Table\Table;
 
 /**
  * A row of the table wp_plugin_dev_test_log: the same local name as the log table of the test theme, a table of

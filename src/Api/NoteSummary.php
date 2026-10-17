@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Api;
+namespace WebCodingCat\PluginDevTest\Api;
 
-use Saij\WpAppFramework\DependencyInjection\NoService;
+use WebCodingCat\WpAppFramework\DependencyInjection\NoService;
 
 /**
  * A note as the public API reports it.

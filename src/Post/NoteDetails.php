@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Post;
+namespace WebCodingCat\PluginDevTest\Post;
 
-use Saij\WpAppFramework\Post\PostMeta;
+use WebCodingCat\WpAppFramework\Post\PostMeta;
 
 #[PostMeta('details', title: 'Note details', postTypes: [Note::class])]
 final class NoteDetails

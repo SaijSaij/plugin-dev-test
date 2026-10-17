@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Twig;
+namespace WebCodingCat\PluginDevTest\Twig;
 
-use Saij\PluginDevTest\Api\NoteApi;
-use Saij\WpAppFramework\Twig\TemplateFilter;
-use Saij\WpAppFramework\Twig\TemplateFunction;
-use Saij\WpAppFramework\Twig\TemplateRenderer;
+use WebCodingCat\PluginDevTest\Api\NoteApi;
+use WebCodingCat\WpAppFramework\Twig\TemplateFilter;
+use WebCodingCat\WpAppFramework\Twig\TemplateFunction;
+use WebCodingCat\WpAppFramework\Twig\TemplateRenderer;
 
 /**
  * Public template functions and filters of the plugin; the test theme calls them by name.

@@ -3,15 +3,15 @@
  *
  * WordPress provides its packages to the editor at runtime (script handles,
  * mapped by the dependency extraction plugin); they are not installed.
- * `@saij/wp-app-framework` is mapped the same way, to the runtime of this
+ * `@webcodingcat/wp-app-framework` is mapped the same way, to the runtime of this
  * plugin's framework instance (see the framework's webpack helper).
  */
 const defaults = require( '@wordpress/scripts/config/eslint.config.cjs' );
 
 const PROVIDED_AT_RUNTIME = [
 	'@wordpress/components',
-	'@saij/wp-app-framework',
-	'@saij/wp-app-framework/view',
+	'@webcodingcat/wp-app-framework',
+	'@webcodingcat/wp-app-framework/view',
 ];
 
 module.exports = [

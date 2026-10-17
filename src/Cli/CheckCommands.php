@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Cli;
+namespace WebCodingCat\PluginDevTest\Cli;
 
-use Saij\WpAppFramework\WpCli\Argument;
-use Saij\WpAppFramework\WpCli\CliCommand;
-use Saij\WpAppFramework\WpCli\CliOutput;
-use Saij\WpAppFramework\WpCli\CliSubcommand;
+use WebCodingCat\WpAppFramework\WpCli\Argument;
+use WebCodingCat\WpAppFramework\WpCli\CliCommand;
+use WebCodingCat\WpAppFramework\WpCli\CliOutput;
+use WebCodingCat\WpAppFramework\WpCli\CliSubcommand;
 
 /**
  * WP-CLI commands `wp plugin-dev-test check …`, run by tests/cli/run next to those of the test theme.

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Support;
+namespace WebCodingCat\PluginDevTest\Support;
 
-use Saij\WpAppFramework\Block\Support\BlockSupport;
+use WebCodingCat\WpAppFramework\Block\Support\BlockSupport;
 
 /**
  * Block support of the plugin with the same attribute name as the test theme's

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Block\Note;
+namespace WebCodingCat\PluginDevTest\Block\Note;
 
-use Saij\WpAppFramework\Value\PlainText;
-use Saij\WpAppFramework\Value\RichText;
+use WebCodingCat\WpAppFramework\Value\PlainText;
+use WebCodingCat\WpAppFramework\Value\RichText;
 
 final readonly class NoteAttributes
 {

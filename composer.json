@@ -1,15 +1,15 @@
 {
-    "name": "saij/plugin-dev-test",
+    "name": "webcodingcat/plugin-dev-test",
     "description": "Test plugin for wp-app-framework: its build and browser tests run against this plugin next to the test theme.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=8.5",
-        "saij/wp-app-framework": "dev-main"
+        "webcodingcat/wp-app-framework": "dev-main"
     },
     "autoload": {
         "psr-4": {
-            "Saij\\PluginDevTest\\": "src/"
+            "WebCodingCat\\PluginDevTest\\": "src/"
         }
     },
     "scripts": {
@@ -27,8 +27,8 @@
         },
         "strauss": {
             "target_directory": "vendor-prefixed",
-            "namespace_prefix": "Saij\\PluginDevTest\\Vendor\\",
-            "classmap_prefix": "Saij_PluginDevTest_Vendor_",
+            "namespace_prefix": "WebCodingCat\\PluginDevTest\\Vendor\\",
+            "classmap_prefix": "WebCodingCat_PluginDevTest_Vendor_",
             "include_root_autoload": true,
             "update_call_sites": [
                 "src",

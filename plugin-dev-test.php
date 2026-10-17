@@ -18,4 +18,4 @@ require is_file(__DIR__ . '/vendor-prefixed/autoload.php')
     ? __DIR__ . '/vendor-prefixed/autoload.php'
     : __DIR__ . '/vendor/autoload.php';
 
-Saij\WpAppFramework\Plugin::boot(__FILE__);
+WebCodingCat\WpAppFramework\Plugin::boot(__FILE__);

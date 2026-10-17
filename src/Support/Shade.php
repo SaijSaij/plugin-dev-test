@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Support;
+namespace WebCodingCat\PluginDevTest\Support;
 
 enum Shade: string
 {

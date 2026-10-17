@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Post;
+namespace WebCodingCat\PluginDevTest\Post;
 
-use Saij\WpAppFramework\Post\Post;
-use Saij\WpAppFramework\Post\PostMeta;
+use WebCodingCat\WpAppFramework\Post\Post;
+use WebCodingCat\WpAppFramework\Post\PostMeta;
 
 /**
  * Meta of the plugin on posts of WordPress, next to the meta of the theme.

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Post;
+namespace WebCodingCat\PluginDevTest\Post;
 
-use Saij\PluginDevTest\Rest\Api;
-use Saij\WpAppFramework\Post\AbstractPost;
-use Saij\WpAppFramework\Post\Post;
-use Saij\WpAppFramework\Query\Direction;
-use Saij\WpAppFramework\Query\PostOrder;
-use Saij\WpAppFramework\Rest\HttpMethod;
-use Saij\WpAppFramework\Rest\Permission\Capability;
-use Saij\WpAppFramework\Rest\RestController;
-use Saij\WpAppFramework\Rest\RestRoute;
+use WebCodingCat\PluginDevTest\Rest\Api;
+use WebCodingCat\WpAppFramework\Post\AbstractPost;
+use WebCodingCat\WpAppFramework\Post\Post;
+use WebCodingCat\WpAppFramework\Query\Direction;
+use WebCodingCat\WpAppFramework\Query\PostOrder;
+use WebCodingCat\WpAppFramework\Rest\HttpMethod;
+use WebCodingCat\WpAppFramework\Rest\Permission\Capability;
+use WebCodingCat\WpAppFramework\Rest\RestController;
+use WebCodingCat\WpAppFramework\Rest\RestRoute;
 
 /**
  * Reads the plugin's meta through its own classes and queries posts by it.

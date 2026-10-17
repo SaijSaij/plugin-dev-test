@@ -1,7 +1,7 @@
 /**
  * Front-end behavior of the counter block: each click on the button counts up.
  */
-import { BlockView } from '@saij/wp-app-framework/view';
+import { BlockView } from '@webcodingcat/wp-app-framework/view';
 
 export default class Counter extends BlockView {
 	mount() {

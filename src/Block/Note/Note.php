@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Block\Note;
+namespace WebCodingCat\PluginDevTest\Block\Note;
 
-use Saij\PluginDevTest\Support\Surface;
-use Saij\WpAppFramework\Block\Block;
-use Saij\WpAppFramework\Block\BlockCategory;
-use Saij\WpAppFramework\Block\Support\UseSupport;
-use Saij\WpAppFramework\Twig\TemplateRenderer;
+use WebCodingCat\PluginDevTest\Support\Surface;
+use WebCodingCat\WpAppFramework\Block\Block;
+use WebCodingCat\WpAppFramework\Block\BlockCategory;
+use WebCodingCat\WpAppFramework\Block\Support\UseSupport;
+use WebCodingCat\WpAppFramework\Twig\TemplateRenderer;
 
 /**
  * Block of the plugin, used next to the blocks of the test theme; uses the

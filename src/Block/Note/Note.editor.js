@@ -1,7 +1,7 @@
 /**
  * Editor extension of the note block: a panel of the plugin's own framework instance.
  */
-import { registerPanel } from '@saij/wp-app-framework';
+import { registerPanel } from '@webcodingcat/wp-app-framework';
 import { PanelBody } from '@wordpress/components';
 
 registerPanel( 'note', ( { attributes } ) => (

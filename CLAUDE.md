@@ -1,6 +1,6 @@
 # CLAUDE.md – plugin-dev-test
 
-Test plugin of [wp-app-framework](https://github.com/webcodingcat/wp-app-framework) (slug `plugin-dev-test`, main file `plugin-dev-test.php`, namespace `plugin-dev-test`: blocks `plugin-dev-test/…`, REST `plugin-dev-test/v1`, template prefix `plugin_dev_test_`, PHP `Saij\PluginDevTest\`). Not a product plugin: it exercises the framework in a plugin next to the test theme [theme-dev-test](https://github.com/webcodingcat/theme-dev-test). Framework principles, conventions and testing rules: the [developer documentation](https://webcodingcat.github.io/wp-app-framework/next/development/) (in the framework checkout `docs/content/development/`) and the framework's CLAUDE.md; this file covers the plugin.
+Test plugin of [wp-app-framework](https://github.com/webcodingcat/wp-app-framework) (slug `plugin-dev-test`, main file `plugin-dev-test.php`, namespace `plugin-dev-test`: blocks `plugin-dev-test/…`, REST `plugin-dev-test/v1`, template prefix `plugin_dev_test_`, PHP `WebCodingCat\PluginDevTest\`). Not a product plugin: it exercises the framework in a plugin next to the test theme [theme-dev-test](https://github.com/webcodingcat/theme-dev-test). Framework principles, conventions and testing rules: the [developer documentation](https://webcodingcat.github.io/wp-app-framework/next/development/) (in the framework checkout `docs/content/development/`) and the framework's CLAUDE.md; this file covers the plugin.
 
 <!-- Maintainers: keep this file under 200 lines; the README holds commands in full and the spec table. -->
 
@@ -36,6 +36,6 @@ Release build and release test: see "Release" and "Tests" in the README.
 ## Keep in sync
 
 - Expected `build-manifest` output in the README when counts change.
-- The framework is required as `dev-main`; after a framework change is pushed, `composer update saij/wp-app-framework`.
+- The framework is required as `dev-main`; after a framework change is pushed, `composer update webcodingcat/wp-app-framework`.
 - A release tag `v<version>` must equal `Version:` in `plugin-dev-test.php`. `with-theme` in `.github/workflows/release.yml` names the theme release the plugin is tested with, in the release workflow and in `tests/release.pools` (`tests/download-with-theme`); it must contain everything the suite expects from the theme.
 - Every GitHub release gets short release notes instead of the generated compare link alone: what the plugin tests anew, the framework version it is built with and the theme release it is tested with (`with-theme`), and the compare link last. The release workflow creates the release with `--generate-notes`; once it has passed, replace the text with `gh release edit <tag> --notes-file <file>` (a rerun only uploads the ZIP and keeps the text).

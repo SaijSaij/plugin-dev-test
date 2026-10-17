@@ -36,7 +36,7 @@ test.describe( 'Post types and meta of the plugin', () => {
 			path: `/plugin-dev-test/v1/posts/notes/${ note.id }`,
 		} );
 		expect( read.body ).toEqual( {
-			class: 'Saij\\PluginDevTest\\Post\\Note',
+			class: 'WebCodingCat\\PluginDevTest\\Post\\Note',
 			priority: 3,
 		} );
 	} );

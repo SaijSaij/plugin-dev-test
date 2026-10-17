@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Mode;
+namespace WebCodingCat\PluginDevTest\Mode;
 
-use Saij\PluginDevTest\Rest\Api;
-use Saij\WpAppFramework\Plugin;
-use Saij\WpAppFramework\Rest\HttpMethod;
-use Saij\WpAppFramework\Rest\Permission\PublicAccess;
-use Saij\WpAppFramework\Rest\RestController;
-use Saij\WpAppFramework\Rest\RestRoute;
 use Twig\Environment;
+use WebCodingCat\PluginDevTest\Rest\Api;
+use WebCodingCat\WpAppFramework\Plugin;
+use WebCodingCat\WpAppFramework\Rest\HttpMethod;
+use WebCodingCat\WpAppFramework\Rest\Permission\PublicAccess;
+use WebCodingCat\WpAppFramework\Rest\RestController;
+use WebCodingCat\WpAppFramework\Rest\RestRoute;
 
 /**
  * Reports the mode and the paths of the plugin's framework instance.

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Table;
+namespace WebCodingCat\PluginDevTest\Table;
 
-use Saij\WpAppFramework\Query\Field\StringField;
-use Saij\WpAppFramework\Table\TableFields;
+use WebCodingCat\WpAppFramework\Query\Field\StringField;
+use WebCodingCat\WpAppFramework\Table\TableFields;
 
 /**
  * Written by hand, with the one field the plugin queries.

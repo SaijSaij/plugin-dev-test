@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Block\Note;
+namespace WebCodingCat\PluginDevTest\Block\Note;
 
-use Saij\WpAppFramework\Value\Labeled;
+use WebCodingCat\WpAppFramework\Value\Labeled;
 
 enum Tone: string implements Labeled
 {

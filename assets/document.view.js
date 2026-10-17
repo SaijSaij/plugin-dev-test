@@ -2,7 +2,7 @@
  * The plugin's document view: reads its own view data and takes a place in its own shared module order.js,
  * next to the test theme's document view with the same names (document-views.spec.js).
  */
-import { DocumentView } from '@saij/wp-app-framework/view';
+import { DocumentView } from '@webcodingcat/wp-app-framework/view';
 import { take } from '#shared/order';
 
 export default class PluginDocumentMarker extends DocumentView {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Asset;
+namespace WebCodingCat\PluginDevTest\Asset;
 
-use Saij\PluginDevTest\Rest\Api;
-use Saij\WpAppFramework\Asset\Assets;
-use Saij\WpAppFramework\Rest\HttpMethod;
-use Saij\WpAppFramework\Rest\Permission\PublicAccess;
-use Saij\WpAppFramework\Rest\RestController;
-use Saij\WpAppFramework\Rest\RestRoute;
+use WebCodingCat\PluginDevTest\Rest\Api;
+use WebCodingCat\WpAppFramework\Asset\Assets;
+use WebCodingCat\WpAppFramework\Rest\HttpMethod;
+use WebCodingCat\WpAppFramework\Rest\Permission\PublicAccess;
+use WebCodingCat\WpAppFramework\Rest\RestController;
+use WebCodingCat\WpAppFramework\Rest\RestRoute;
 
 /**
  * Static assets of the plugin through the injected service: the theme overrides images/badge.svg in

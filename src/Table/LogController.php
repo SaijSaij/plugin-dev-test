@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Table;
+namespace WebCodingCat\PluginDevTest\Table;
 
-use Saij\PluginDevTest\Rest\Api;
-use Saij\WpAppFramework\Rest\HttpMethod;
-use Saij\WpAppFramework\Rest\Permission\Capability;
-use Saij\WpAppFramework\Rest\RestController;
-use Saij\WpAppFramework\Rest\RestException;
-use Saij\WpAppFramework\Rest\RestRoute;
+use WebCodingCat\PluginDevTest\Rest\Api;
+use WebCodingCat\WpAppFramework\Rest\HttpMethod;
+use WebCodingCat\WpAppFramework\Rest\Permission\Capability;
+use WebCodingCat\WpAppFramework\Rest\RestController;
+use WebCodingCat\WpAppFramework\Rest\RestException;
+use WebCodingCat\WpAppFramework\Rest\RestRoute;
 
 /**
  * The log table of the plugin over REST: rows created, found by message and deleted.

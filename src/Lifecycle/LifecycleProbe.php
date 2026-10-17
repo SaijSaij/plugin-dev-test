@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Lifecycle;
+namespace WebCodingCat\PluginDevTest\Lifecycle;
 
-use Saij\WpAppFramework\Lifecycle\OnActivation;
-use Saij\WpAppFramework\Lifecycle\OnDeactivation;
-use Saij\WpAppFramework\Lifecycle\OnUninstall;
+use WebCodingCat\WpAppFramework\Lifecycle\OnActivation;
+use WebCodingCat\WpAppFramework\Lifecycle\OnDeactivation;
+use WebCodingCat\WpAppFramework\Lifecycle\OnUninstall;
 
 /**
  * Counts activations, deactivations and uninstallations in the option plugin_dev_test_lifecycle_probe, which

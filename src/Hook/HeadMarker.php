@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Hook;
+namespace WebCodingCat\PluginDevTest\Hook;
 
-use Saij\WpAppFramework\Hook\Hook;
-use Saij\WpAppFramework\Plugin;
+use WebCodingCat\WpAppFramework\Hook\Hook;
+use WebCodingCat\WpAppFramework\Plugin;
 
 /**
  * Action of the plugin: prints a meta tag the browser tests look for.

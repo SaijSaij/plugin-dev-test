@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Api;
+namespace WebCodingCat\PluginDevTest\Api;
 
-use Saij\WpAppFramework\Api\PublicApi;
+use WebCodingCat\WpAppFramework\Api\PublicApi;
 
 /**
  * Public API of the plugin; the test theme injects it with #[PluginApi('plugin-dev-test')].

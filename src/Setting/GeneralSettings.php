@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Setting;
+namespace WebCodingCat\PluginDevTest\Setting;
 
-use Saij\WpAppFramework\Setting\SettingsGroup;
+use WebCodingCat\WpAppFramework\Setting\SettingsGroup;
 
 /**
  * The plugin's settings group, with the same name as a group of the test theme: option plugin_dev_test_general.

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Block\Teaser;
+namespace WebCodingCat\PluginDevTest\Block\Teaser;
 
-use Saij\WpAppFramework\Value\Label;
-use Saij\WpAppFramework\Value\PlainText;
-use Saij\WpAppFramework\Value\RichText;
-use Saij\WpAppFramework\Value\Url;
+use WebCodingCat\WpAppFramework\Value\Label;
+use WebCodingCat\WpAppFramework\Value\PlainText;
+use WebCodingCat\WpAppFramework\Value\RichText;
+use WebCodingCat\WpAppFramework\Value\Url;
 
 final readonly class TeaserAttributes
 {

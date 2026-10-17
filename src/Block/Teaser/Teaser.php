@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Saij\PluginDevTest\Block\Teaser;
+namespace WebCodingCat\PluginDevTest\Block\Teaser;
 
-use Saij\WpAppFramework\Block\Block;
-use Saij\WpAppFramework\Block\BlockCategory;
-use Saij\WpAppFramework\Twig\TemplateRenderer;
+use WebCodingCat\WpAppFramework\Block\Block;
+use WebCodingCat\WpAppFramework\Block\BlockCategory;
+use WebCodingCat\WpAppFramework\Twig\TemplateRenderer;
 
 /**
  * Styled with the prefixed utilities of the plugin's stylesheet; must look the
