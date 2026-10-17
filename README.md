@@ -41,7 +41,7 @@ All checks run with [wp-test-env](https://github.com/saijsaij/wp-test-env), chec
 `build-manifest` must report
 
 ```
-Manifest OK (plugin plugin-dev-test): 35 service candidates, 23 services, 2 hooks, 15 routes, 37 template functions, 1 template filters, 3 blocks, 1 CLI commands, 0 cron events, 0 cron tasks, 1 tables, 3 lifecycle methods. Nothing written (no --output).
+Manifest OK (plugin plugin-dev-test): 37 service candidates, 24 services, 2 hooks, 15 routes, 43 template functions, 1 template filters, 3 blocks, 1 CLI commands, 0 cron events, 0 cron tasks, 1 tables, 3 lifecycle methods. Nothing written (no --output).
 Public: 1 APIs, 3 template functions and filters.
 Assets: 2 static files, 0 image variants.
 ```
