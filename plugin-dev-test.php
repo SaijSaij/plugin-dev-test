@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Dev Test Plugin
  * Description: Test plugin for wp-app-framework: its build and browser tests run against this plugin next to the test theme.
- * Version: 0.16.0
+ * Version: 0.16.1
  * Requires at least: 7.1
  * Requires PHP: 8.5
  * License: GPL-2.0-or-later
